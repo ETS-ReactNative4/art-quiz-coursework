@@ -1,12 +1,14 @@
-import { Text, View, Pressable, StyleSheet } from "react-native";
+import { Text, View, FlatList, StyleSheet } from "react-native";
+import { CATEGORIES } from "../data/dummy-data";
 
 import MyButton from "../components/MyButton";
-// import Colors from "../constants/Colors";
+import HomeCategoryItem from "../components/HomeCategoryItem";
 
 function HomeScreen() {
   return (
     <View>
-      <Text>HomeScreen!!!</Text>
+      <HomeCategoryItem title="Artists quiz" />
+      <HomeCategoryItem title="Pictures quiz" />
       <MyButton
         title="Settings"
         onPressProp={() => alert("It's a button-settting")}
