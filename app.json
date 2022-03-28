@@ -1,14 +1,15 @@
 {
   "expo": {
-    "name": "art-quiz-coursework",
+    "name": "Art Quiz",
     "slug": "art-quiz-coursework",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "orientation": "default",
+    "icon": "./assets/art-3.png",
+    "backgroundColor": "#24180f",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/prev-picture.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFF4E9"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
