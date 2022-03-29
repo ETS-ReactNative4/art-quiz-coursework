@@ -1,6 +1,7 @@
 class CategoryQuiz {
-  constructor(id, categoryUrl) {
+  constructor(id, category, categoryUrl) {
     this.id = id;
+    this.category = category;
     this.categoryUrl = categoryUrl;
   }
 }

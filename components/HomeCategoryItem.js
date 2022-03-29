@@ -4,7 +4,7 @@ import Colors from "../constants/Colors";
 import { QUIZES } from "../data/dummy-data";
 
 function HomeCategoryItem({ title }) {
-  const selectedQuiz = QUIZES.find((quiz, index) => quiz.id === index);
+  const selectedQuiz = QUIZES.find((quiz) => quiz.category === title);
 
   return (
     <View style={styles.container}>

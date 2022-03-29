@@ -77,10 +77,12 @@ export const CATEGORIES = [
 export const QUIZES = [
   new CategoryQuiz(
     0,
+    "Artists Quiz",
     "https://github.com/VeronikaBogdan/art-quiz-coursework/blob/main/assets/art-5.png?raw=true"
   ),
   new CategoryQuiz(
     1,
+    "Pictures Quiz",
     "https://github.com/VeronikaBogdan/art-quiz-coursework/blob/main/assets/modern-art.png?raw=true"
   ),
 ];
