@@ -15,10 +15,10 @@ function HomeScreen() {
         title="Pictures Quiz"
         categoryScreen="PicturesCategoriesScreen"
       />
-      <MyButton
+      {/* <MyButton
         title="Settings"
         onPressProp={() => alert("It's a button-settting")}
-      />
+      /> */}
     </View>
   );
 }

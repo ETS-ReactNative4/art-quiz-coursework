@@ -40,8 +40,8 @@ export default HomeCategoryItem;
 const styles = StyleSheet.create({
   container: {
     // width: "60%",
-    marginHorizontal: 80,
-    marginVertical: 10,
+    marginHorizontal: 60,
+    marginVertical: 15,
     borderColor: Colors.primary,
     borderWidth: 3,
     borderRadius: 15,
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   image: {
     width: 175,
     height: 220,
+    marginHorizontal: 25,
   },
   button: {
     padding: 22,

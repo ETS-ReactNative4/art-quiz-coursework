@@ -15,9 +15,6 @@ export default function App() {
     <>
       <StatusBar style="dark" />
 
-      {/* <HomeScreen /> */}
-      {/* <CategoriesScreen /> */}
-
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -32,7 +29,17 @@ export default function App() {
             component={HomeScreen}
             options={{
               title: "Welcome to Art Quiz!",
-              headerTitleAlign: "center",
+              // headerTitleAlign: "center",
+              headerRight: () => (
+                <View>
+                  <Feather
+                    name="settings"
+                    size={24}
+                    color={Colors.primary}
+                    onPress={() => alert("This is a settings-button!")}
+                  />
+                </View>
+              ),
             }}
           />
           <Stack.Screen
