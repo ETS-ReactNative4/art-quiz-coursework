@@ -7,8 +7,14 @@ import HomeCategoryItem from "../components/HomeCategoryItem";
 function HomeScreen() {
   return (
     <View>
-      <HomeCategoryItem title="Artists Quiz" />
-      <HomeCategoryItem title="Pictures Quiz" />
+      <HomeCategoryItem
+        title="Artists Quiz"
+        categoryScreen="ArtistsCategoriesScreen"
+      />
+      <HomeCategoryItem
+        title="Pictures Quiz"
+        categoryScreen="PicturesCategoriesScreen"
+      />
       <MyButton
         title="Settings"
         onPressProp={() => alert("It's a button-settting")}

@@ -1,9 +1,18 @@
 import { View, Text, Image, Pressable, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../constants/Colors";
 import { QUIZES } from "../data/dummy-data";
 
-function HomeCategoryItem({ title }) {
+function HomeCategoryItem({ title, categoryScreen }) {
+  const navigation = useNavigation();
+
+  function selectQuizItemHadler() {
+    navigation.navigate(categoryScreen, {
+      quizTitle: title,
+    });
+  }
+
   const selectedQuiz = QUIZES.find((quiz) => quiz.category === title);
 
   return (
@@ -14,7 +23,7 @@ function HomeCategoryItem({ title }) {
           styles.button,
           pressed ? styles.buttonPressed : null,
         ]}
-        // onPress={onPressProp}
+        onPress={selectQuizItemHadler}
       >
         <Image
           style={styles.image}
