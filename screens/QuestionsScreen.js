@@ -1,8 +1,9 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { CATEGORIES } from "../data/dummy-data";
+import Colors from "../constants/Colors";
 import ArtistQuestionItem from "../components/ArtistQuestionItem";
 
 function QuestionsScreen({ route, navigation }) {
@@ -12,11 +13,16 @@ function QuestionsScreen({ route, navigation }) {
   if (count === 10) count = 1;
 
   const headerTitle = route.params.quizTitle;
+  const mainCategory = route.params.mainCategory;
+
   const selectedCategory = CATEGORIES.find(
     (item) => item.title === headerTitle
   );
+
   const questionTitle =
-    "Which is " + selectedCategory.artistsQuiz[count].author + " picture?";
+    mainCategory === "ArtistsCategoriesScreen"
+      ? "Which is " + selectedCategory.artistsQuiz[count].author + " picture?"
+      : "Who is the author of this picture?";
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -26,7 +32,7 @@ function QuestionsScreen({ route, navigation }) {
 
   return (
     <View>
-      <Text>{questionTitle}</Text>
+      <Text style={styles.title}>{questionTitle}</Text>
       <ArtistQuestionItem
         count={count}
         category={selectedCategory.artistsQuiz[count]}
@@ -38,3 +44,12 @@ function QuestionsScreen({ route, navigation }) {
 }
 
 export default QuestionsScreen;
+
+const styles = StyleSheet.create({
+  title: {
+    fontWeight: "500",
+    fontSize: 28,
+    color: Colors.primary,
+    textAlign: "center",
+  },
+});

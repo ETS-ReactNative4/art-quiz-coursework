@@ -1,15 +1,17 @@
 import { View, Text, Image } from "react-native";
 
 import { CATEGORIES } from "../data/dummy-data";
+// import {} from "../assets/img/";
 
 function ArtistQuestionItem({ category, count }) {
-  const image = category.name;
+  const image = category.imageNum;
+  // let qqq = require(`../assets/img/${image}.jpg`);
 
   return (
     <View>
       <Text>qweqweqew</Text>
-      <Text>llklklk: {image}</Text>
-      {/* <Image source={require("../assets/color-png/category-01-color.png")} /> */}
+      {/* <Text>llklklk: {image}</Text> */}
+      <Image source={image} />
     </View>
   );
 }

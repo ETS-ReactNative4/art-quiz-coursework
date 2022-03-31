@@ -10,6 +10,7 @@ function HomeCategoryItem({ title, categoryScreen }) {
   function selectQuizItemHadler() {
     navigation.navigate(categoryScreen, {
       quizTitle: title,
+      categoryScreen: categoryScreen,
     });
   }
 

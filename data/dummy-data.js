@@ -13,7 +13,8 @@ export const CATEGORIES = [
         author: "Павел Федотов",
         name: "Сватовство майора",
         year: "1852",
-        imageNum: "0",
+        // imageNum: "0",
+        imageNum: require(`../assets/img/0.jpg`),
       },
       {
         author: "Эдгар Дега",
@@ -134,7 +135,7 @@ export const CATEGORIES = [
       },
       {
         author: "Поль Гоген",
-        name: "Откуда мы пришли? Кто мы? Куда мы идём?",
+        name: "Откуда мы пришли ? Кто мы? Куда мы идём?",
         year: "1898",
         imageNum: "19",
       },

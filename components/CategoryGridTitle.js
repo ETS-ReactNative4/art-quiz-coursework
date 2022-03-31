@@ -10,12 +10,15 @@ import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../constants/Colors";
 
-function CategoryGridTitle({ title, color, image, onPressProp }) {
+function CategoryGridTitle({ title, color, image, onPressProp, mainCategory }) {
   const navigation = useNavigation();
+
+  // const mainCategory = route.params.categoryScreen;
 
   function selectQuizItemHadler() {
     navigation.navigate("QuestionsScreen", {
       quizTitle: title,
+      mainCategory: mainCategory,
     });
   }
 

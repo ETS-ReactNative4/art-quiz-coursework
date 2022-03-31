@@ -3,7 +3,9 @@ import CategoryGridTitle from "../components/CategoryGridTitle";
 
 import { CATEGORIES } from "../data/dummy-data";
 
-function CategoriesScreen() {
+function CategoriesScreen({ route, navigation }) {
+  const mainCategory = route.params.categoryScreen;
+
   function renderCategoryItem(itemData) {
     // function pressHandler() {
     //   navigation.navigate('MealsOverview', {
@@ -17,6 +19,7 @@ function CategoriesScreen() {
         title={itemData.item.title}
         color={itemData.item.color}
         image={itemData.item.colorImage}
+        mainCategory={mainCategory}
         // onPressProp={pressHandler}
       />
     );
