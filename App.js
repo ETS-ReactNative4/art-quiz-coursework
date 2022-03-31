@@ -6,6 +6,7 @@ import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
 
 import HomeScreen from "./screens/HomeScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
+import QuestionsScreen from "./screens/QuestionsScreen";
 import Colors from "./constants/Colors";
 
 const Stack = createNativeStackNavigator();
@@ -18,10 +19,10 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: "#F7D76F" },
+            headerStyle: { backgroundColor: Colors.yellow },
             headerTintColor: Colors.primary,
             headerTitleStyle: { fontSize: 24 },
-            contentStyle: { backgroundColor: "#FFF4E9" },
+            contentStyle: { backgroundColor: Colors.lightYellow },
           }}
         >
           <Stack.Screen
@@ -70,6 +71,29 @@ export default function App() {
             component={CategoriesScreen}
             options={{
               title: "Pictures Quiz",
+              headerRight: () => (
+                <View style={styles.iconsContainer}>
+                  <Feather
+                    name="home"
+                    size={24}
+                    color={Colors.primary}
+                    onPress={() => alert("This is a home-button!")}
+                  />
+                  <Feather
+                    name="settings"
+                    size={24}
+                    color={Colors.primary}
+                    onPress={() => alert("This is a settings-button!")}
+                  />
+                </View>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="QuestionsScreen"
+            component={QuestionsScreen}
+            options={{
+              title: "Questions",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
                   <Feather

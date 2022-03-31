@@ -6,10 +6,19 @@ import {
   StyleSheet,
   Platform,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../constants/Colors";
 
 function CategoryGridTitle({ title, color, image, onPressProp }) {
+  const navigation = useNavigation();
+
+  function selectQuizItemHadler() {
+    navigation.navigate("QuestionsScreen", {
+      quizTitle: title,
+    });
+  }
+
   return (
     <View style={styles.gridItem}>
       <Pressable
@@ -18,7 +27,7 @@ function CategoryGridTitle({ title, color, image, onPressProp }) {
           styles.button,
           pressed ? styles.buttonPressed : null,
         ]}
-        onPress={onPressProp}
+        onPress={selectQuizItemHadler}
       >
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Text style={styles.title}>{title}</Text>
