@@ -3,4 +3,6 @@ export default {
   accent: "#C717FC",
   lightYellow: "#FFF4E9",
   yellow: "#F7D76F",
+  green: "#32C884",
+  red: "#E33636",
 };

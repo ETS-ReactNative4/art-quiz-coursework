@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
 
@@ -12,6 +12,7 @@ import Colors from "./constants/Colors";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // const navigation = useNavigation();
   return (
     <>
       <StatusBar style="dark" />
@@ -54,7 +55,7 @@ export default function App() {
                     name="home"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a home-button!")}
+                    onPress={() => navigation.popToTop()}
                   />
                   <Feather
                     name="settings"
@@ -83,7 +84,9 @@ export default function App() {
                     name="settings"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a settings-button!")}
+                    onPress={({ navigation }) =>
+                      navigation.navigate("HomeScreen")
+                    }
                   />
                 </View>
               ),
