@@ -1,8 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { CATEGORIES } from "../data/dummy-data";
+import IMAGES from "../data/images";
+
 import Colors from "../constants/Colors";
 import ArtistQuestionItem from "../components/ArtistQuestionItem";
 import PictureInfoModal from "../components/pictureInfoModal";
@@ -22,22 +24,27 @@ function QuestionsScreen({ route, navigation }) {
     (item) => item.title === headerTitle
   );
 
-  let questions = [];
-  let rightAnswerNum = getRandomNum(1, 4);
+  const rightAnswer = selectedCategory.artistsQuiz[count];
 
-  let arrOfAnswers = CATEGORIES.find((item) => {
-    if (item.title === selectedCategory) {
-      for (let i = 0; i < 4; i++) {
-        let randNum = getRandomNum(0, 9);
+  let answers = [
+    rightAnswer.imageNum,
+    getRandomNum(count + 1, 100),
+    getRandomNum(count + 1, 100),
+    getRandomNum(count + 1, 100),
+  ];
 
-        if (i == rightAnswerNum || count === randNum) {
-          questions[i] = item.artistsQuiz[count];
-        } else if (count !== randNum) {
-          questions[i] = item.artistsQuiz[randNum];
-        }
-      }
-    }
-  });
+  shake(answers);
+
+  let dataAnswers = [
+    IMAGES[answers[0]],
+    IMAGES[answers[1]],
+    IMAGES[answers[2]],
+    IMAGES[answers[3]],
+  ];
+
+  function shake(arr) {
+    return arr.sort((a, b) => Math.random() - 0.5);
+  }
 
   function getRandomNum(a, b) {
     let min = Math.ceil(a);
@@ -47,7 +54,7 @@ function QuestionsScreen({ route, navigation }) {
 
   const questionTitle =
     mainCategory === "ArtistsCategoriesScreen"
-      ? "Which is " + selectedCategory.artistsQuiz[count].author + " picture?"
+      ? "Which is " + rightAnswer.author + " picture?"
       : "Who is the author of this picture?";
 
   useLayoutEffect(() => {
@@ -56,45 +63,25 @@ function QuestionsScreen({ route, navigation }) {
     });
   }, [navigation]);
 
-  // let colorImg = selectedCategory;
-
-  function name(params) {}
+  function renderCategoryItem(itemData) {
+    return (
+      <ArtistQuestionItem
+        num={itemData.item.name}
+        imgNum={itemData.item.imageNum}
+        color={Colors.green}
+      />
+    );
+  }
 
   return (
     <View>
       <Text style={styles.title}>{questionTitle}</Text>
-      <Text style={{ color: "black" }}>
-        {getRandomNum(0, 9)} qq {rightAnswerNum}
-      </Text>
-      <View style={styles.picturesContainer}>
-        <ArtistQuestionItem
-          num={count}
-          category={selectedCategory.artistsQuiz[count]}
-          // category={questions[0]}
-          color={Colors.red}
-          onPressProp={() => {
-            setCount(count + 1);
-          }}
-        />
-        <ArtistQuestionItem
-          num={null}
-          category={selectedCategory.artistsQuiz[getRandomNum(0, 9)]}
-          color={Colors.red}
-          onPressProp={() => setCount(count + 1)}
-        />
-        <ArtistQuestionItem
-          num={null}
-          category={selectedCategory.artistsQuiz[getRandomNum(0, 9)]}
-          color={Colors.red}
-          onPressProp={() => setCount(count + 1)}
-        />
-        <ArtistQuestionItem
-          num={null}
-          category={selectedCategory.artistsQuiz[getRandomNum(0, 9)]}
-          color={Colors.red}
-          onPressProp={() => setCount(count + 1)}
-        />
-      </View>
+      <FlatList
+        data={dataAnswers}
+        keyExtractor={(item) => item.author}
+        renderItem={renderCategoryItem.bind()}
+        numColumns={2}
+      />
       <PictureInfoModal
         modalVisible={modalVisible}
         onPressProp={() => setModalVisible(true)}
@@ -115,11 +102,5 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     textAlign: "center",
     margin: 30,
-  },
-  picturesContainer: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    width: 350,
-    marginHorizontal: 15,
   },
 });
