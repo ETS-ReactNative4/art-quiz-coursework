@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import { View, Text, FlatList, Image, Modal, StyleSheet } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
@@ -70,9 +70,23 @@ function QuestionsScreen({ route, navigation }) {
         num={itemData.item.name}
         imgNum={itemData.item.imageNum}
         color={Colors.green}
+        onPressProp={() =>
+          rightAnswer.imageNum == itemData.item.imageNum
+            ? setModalVisible(true)
+            : null
+        }
       />
     ) : (
-      <MainButton>{itemData.item.author}</MainButton>
+      <MainButton
+        onPress={
+          () => setModalVisible(true)
+          // rightAnswer.imageNum == itemData.item.imageNum
+          //   ? setModalVisible(true)
+          //   : null
+        }
+      >
+        {itemData.item.author}
+      </MainButton>
     );
   }
 
@@ -96,7 +110,14 @@ function QuestionsScreen({ route, navigation }) {
       />
       <PictureInfoModal
         modalVisible={modalVisible}
-        onPressProp={() => setModalVisible(true)}
+        onPressProp={() => {
+          setCount(count + 1);
+          setModalVisible(!modalVisible);
+        }}
+        image={rightAnswer.imageNum}
+        author={rightAnswer.author}
+        name={rightAnswer.name}
+        year={rightAnswer.year}
       />
       <MyButton title="NEXT" onPressProp={() => setCount(count + 1)} />
     </View>

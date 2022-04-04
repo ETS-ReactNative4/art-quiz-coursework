@@ -1,14 +1,71 @@
 import { View, Text, Modal, Image, StyleSheet } from "react-native";
 
-import CATEGORIES from "../data/dummy-data";
+import IMAGES from "../data/images";
+import Colors from "../constants/Colors";
 
-function pictureInfoModal({ modalVisible, onPressProp }) {
+import MyButton from "../components/MyButton";
+import MainButton from "../components/MainButton";
+
+function pictureInfoModal({
+  modalVisible,
+  onPressProp,
+  image,
+  author,
+  name,
+  year,
+}) {
   return (
-    <Modal animationType="slide" transparent={true} visible={modalVisible}>
-      {/* <Image source={require("../assets/canvas-1.png")} /> */}
-      <Text>You're right!!!</Text>
+    <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <View style={styles.modalContainer}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `https://raw.githubusercontent.com/VeronikaBogdan/art-quiz-coursework/main/assets/img/${image}.jpg`,
+          }}
+          // resizeMode="contain"
+        />
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.text}>
+          {author}, {year}
+        </Text>
+        <MyButton title="NEXT" onPressProp={onPressProp} />
+      </View>
     </Modal>
   );
 }
 
 export default pictureInfoModal;
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    // flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // width: "80%",
+    height: "85%",
+    backgroundColor: Colors.middleYellow,
+    marginHorizontal: 30,
+    marginTop: 70,
+    borderRadius: 15,
+    elevation: 10,
+    // opacity: 0.6,
+  },
+  image: {
+    // maxWidth: "90%",
+    width: 300,
+    height: 300,
+    borderRadius: 15,
+  },
+  name: {
+    fontSize: 25,
+    fontWeight: "500",
+    textAlign: "center",
+    marginVertical: 9,
+  },
+  text: {
+    fontSize: 19,
+    fontStyle: "italic",
+    textAlign: "center",
+    marginVertical: 5,
+  },
+});

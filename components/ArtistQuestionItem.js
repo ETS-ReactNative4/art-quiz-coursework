@@ -1,8 +1,5 @@
 import { View, Text, Image, Pressable, StyleSheet } from "react-native";
 
-import { CATEGORIES } from "../data/dummy-data";
-import Colors from "../constants/Colors";
-
 function ArtistQuestionItem({ imgNum, color, onPressProp }) {
   let imageLink = `https://raw.githubusercontent.com/VeronikaBogdan/art-quiz-coursework/main/assets/img/${imgNum}.jpg`;
 
