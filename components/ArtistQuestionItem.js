@@ -12,7 +12,7 @@ function ArtistQuestionItem({ imgNum, color, onPressProp }) {
         android_ripple={{ color: color, opacity: 0.5 }}
         style={(pressed) => [
           styles.imageContainer,
-          pressed && num !== null ? styles.rightAnswer : null,
+          pressed ? styles.rightAnswer : null,
         ]}
         onPress={onPressProp}
       >
@@ -31,21 +31,14 @@ export default ArtistQuestionItem;
 
 const styles = StyleSheet.create({
   imageContainer: {
-    width: 150,
     borderRadius: 15,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginVertical: 17,
-    justifyContent: "center",
-    // padding: 10,
-    // backgroundColor: "red",
-    // height: 150,
   },
   image: {
-    // backgroundColor: "red",
-    width: 165,
-    height: 165,
+    width: 175,
+    height: 175,
     borderRadius: 15,
-    // marginLeft: 10,
   },
   rightAnswer: {
     // backgroundColor: Colors.green,

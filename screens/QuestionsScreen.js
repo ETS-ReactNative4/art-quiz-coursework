@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
@@ -9,6 +9,7 @@ import Colors from "../constants/Colors";
 import ArtistQuestionItem from "../components/ArtistQuestionItem";
 import PictureInfoModal from "../components/pictureInfoModal";
 import MyButton from "../components/MyButton";
+import MainButton from "../components/MainButton";
 
 function QuestionsScreen({ route, navigation }) {
   // const navigation = useNavigation();
@@ -64,18 +65,29 @@ function QuestionsScreen({ route, navigation }) {
   }, [navigation]);
 
   function renderCategoryItem(itemData) {
-    return (
+    return mainCategory === "ArtistsCategoriesScreen" ? (
       <ArtistQuestionItem
         num={itemData.item.name}
         imgNum={itemData.item.imageNum}
         color={Colors.green}
       />
+    ) : (
+      <MainButton>{itemData.item.author}</MainButton>
     );
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>{questionTitle}</Text>
+      {mainCategory === "ArtistsCategoriesScreen" ? null : (
+        <Image
+          style={styles.image}
+          source={{
+            uri: `https://raw.githubusercontent.com/VeronikaBogdan/art-quiz-coursework/main/assets/img/${rightAnswer.imageNum}.jpg`,
+          }}
+          resizeMode="contain"
+        />
+      )}
       <FlatList
         data={dataAnswers}
         keyExtractor={(item) => item.author}
@@ -94,6 +106,9 @@ function QuestionsScreen({ route, navigation }) {
 export default QuestionsScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+  },
   title: {
     width: "80%",
     height: 75,
@@ -101,6 +116,12 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: Colors.primary,
     textAlign: "center",
-    margin: 30,
+    marginTop: 20,
+  },
+  image: {
+    width: 300,
+    height: 300,
+    marginVertical: 10,
+    borderRadius: 15,
   },
 });

@@ -23,11 +23,12 @@ export default MyButton;
 const styles = StyleSheet.create({
   buttonContainer: {
     // flex: 1,
+    width: "39%",
     margin: 14,
     height: 50,
     marginHorizontal: 100,
-    borderRadius: 10,
-    elevation: 8,
+    borderRadius: 15,
+    elevation: 5,
     backgroundColor: Colors.primary,
     shadowColor: "black",
     shadowOpacity: 0.25,
