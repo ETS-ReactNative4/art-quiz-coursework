@@ -2,9 +2,9 @@ import { Text, Pressable, View, StyleSheet } from "react-native";
 
 import Colors from "../constants/Colors";
 
-function MyButton({ title, onPressProp }) {
+function MyButton({ title, onPressProp, style }) {
   return (
-    <View style={styles.buttonContainer}>
+    <View style={{ ...styles.buttonContainer, ...style }}>
       <Pressable
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => (pressed ? styles.buttonPressed : null)}
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "white",
+    color: Colors.lightYellow,
   },
 });

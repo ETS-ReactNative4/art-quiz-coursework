@@ -1,14 +1,14 @@
 import { View, Text, Modal, Image, StyleSheet } from "react-native";
 
-import IMAGES from "../data/images";
+import { AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
-
 import MyButton from "../components/MyButton";
-import MainButton from "../components/MainButton";
 
 function pictureInfoModal({
   modalVisible,
   onPressProp,
+  onP,
+  count,
   image,
   author,
   name,
@@ -28,7 +28,18 @@ function pictureInfoModal({
         <Text style={styles.text}>
           {author}, {year}
         </Text>
-        <MyButton title="NEXT" onPressProp={onPressProp} />
+        <MyButton
+          style={styles.button}
+          title={
+            // <AntDesign name="right" size={30} color={Colors.middleYellow} />
+            <AntDesign
+              name="arrowright"
+              size={31}
+              color={Colors.middleYellow}
+            />
+          }
+          onPressProp={count == 9 ? onP : onPressProp}
+        />
       </View>
     </Modal>
   );
@@ -57,8 +68,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   name: {
-    fontSize: 25,
-    fontWeight: "500",
+    fontSize: 30,
+    fontWeight: "600",
     textAlign: "center",
     marginVertical: 9,
   },
@@ -67,5 +78,9 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     textAlign: "center",
     marginVertical: 5,
+  },
+  button: {
+    marginTop: 39,
+    width: "30%",
   },
 });

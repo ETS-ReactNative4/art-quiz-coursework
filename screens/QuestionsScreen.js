@@ -8,6 +8,7 @@ import IMAGES from "../data/images";
 import Colors from "../constants/Colors";
 import ArtistQuestionItem from "../components/ArtistQuestionItem";
 import PictureInfoModal from "../components/pictureInfoModal";
+import GameEndModal from "../components/gameEndModal";
 import MyButton from "../components/MyButton";
 import MainButton from "../components/MainButton";
 
@@ -15,8 +16,7 @@ function QuestionsScreen({ route, navigation }) {
   // const navigation = useNavigation();
   let [count, setCount] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-
-  if (count === 10) count = 1;
+  const [modalEnd, setModalEnd] = useState(false);
 
   const headerTitle = route.params.quizTitle;
   const mainCategory = route.params.mainCategory;
@@ -64,7 +64,13 @@ function QuestionsScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+  let answer = "";
+
   function renderCategoryItem(itemData) {
+    // answer =
+    //   rightAnswer.imageNum == itemData.item.imageNum
+    //     ? "ответ верный"
+    //     : "ответ НЕверный";
     return mainCategory === "ArtistsCategoriesScreen" ? (
       <ArtistQuestionItem
         num={itemData.item.name}
@@ -92,7 +98,9 @@ function QuestionsScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{questionTitle}</Text>
+      <Text style={styles.title}>
+        {count + 1}. {questionTitle}
+      </Text>
       {mainCategory === "ArtistsCategoriesScreen" ? null : (
         <Image
           style={styles.image}
@@ -118,8 +126,23 @@ function QuestionsScreen({ route, navigation }) {
         author={rightAnswer.author}
         name={rightAnswer.name}
         year={rightAnswer.year}
+        count={count}
+        onP={() => setModalEnd(true)}
       />
-      <MyButton title="NEXT" onPressProp={() => setCount(count + 1)} />
+      <GameEndModal
+        modalVisible={modalEnd}
+        name="END the game"
+        count={9}
+        // score={}
+        onPressHome={() => {
+          // setCount(count + 1);
+          setModalEnd(!modalEnd);
+          //! ПЕРЕНАПРАВИТЬ НА СТРАНИЦУ КАТЕГОРИЙ !!!
+          setModalVisible(!modalVisible);
+          setCount(0);
+        }}
+      />
+      {/* <MyButton title="NEXT" onPressProp={() => setCount(count + 1)} /> */}
     </View>
   );
 }
