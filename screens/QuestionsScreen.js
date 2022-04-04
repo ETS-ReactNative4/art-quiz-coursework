@@ -14,9 +14,11 @@ import MainButton from "../components/MainButton";
 
 function QuestionsScreen({ route, navigation }) {
   // const navigation = useNavigation();
-  let [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalEnd, setModalEnd] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(-1);
+  const [score, setScore] = useState(0);
 
   const headerTitle = route.params.quizTitle;
   const mainCategory = route.params.mainCategory;
@@ -64,8 +66,6 @@ function QuestionsScreen({ route, navigation }) {
     });
   }, [navigation]);
 
-  let answer = "";
-
   function renderCategoryItem(itemData) {
     // answer =
     //   rightAnswer.imageNum == itemData.item.imageNum
@@ -76,20 +76,17 @@ function QuestionsScreen({ route, navigation }) {
         num={itemData.item.name}
         imgNum={itemData.item.imageNum}
         color={Colors.green}
-        onPressProp={() =>
-          rightAnswer.imageNum == itemData.item.imageNum
-            ? setModalVisible(true)
-            : null
-        }
+        onPressProp={() => {
+          setSelectedAnswer(itemData.item.imageNum);
+          setModalVisible(true);
+        }}
       />
     ) : (
       <MainButton
-        onPress={
-          () => setModalVisible(true)
-          // rightAnswer.imageNum == itemData.item.imageNum
-          //   ? setModalVisible(true)
-          //   : null
-        }
+        onPress={() => {
+          setSelectedAnswer(itemData.item.imageNum);
+          setModalVisible(true);
+        }}
       >
         {itemData.item.author}
       </MainButton>
@@ -116,9 +113,11 @@ function QuestionsScreen({ route, navigation }) {
         renderItem={renderCategoryItem.bind()}
         numColumns={2}
       />
+      <Text>Current score: {score}</Text>
       <PictureInfoModal
         modalVisible={modalVisible}
         onPressProp={() => {
+          selectedAnswer === rightAnswer.imageNum ? setScore(score + 1) : null;
           setCount(count + 1);
           setModalVisible(!modalVisible);
         }}
@@ -128,18 +127,24 @@ function QuestionsScreen({ route, navigation }) {
         year={rightAnswer.year}
         count={count}
         onP={() => setModalEnd(true)}
+        answer={
+          selectedAnswer === rightAnswer.imageNum
+            ? `Верно.  Score: ${score + 1}`
+            : `Неверно. Score: ${score}`
+        }
       />
       <GameEndModal
         modalVisible={modalEnd}
         name="END the game"
         count={9}
-        // score={}
+        score={score + 1}
         onPressHome={() => {
           // setCount(count + 1);
           setModalEnd(!modalEnd);
           //! ПЕРЕНАПРАВИТЬ НА СТРАНИЦУ КАТЕГОРИЙ !!!
           setModalVisible(!modalVisible);
           setCount(0);
+          setScore(0);
         }}
       />
       {/* <MyButton title="NEXT" onPressProp={() => setCount(count + 1)} /> */}

@@ -13,6 +13,7 @@ function pictureInfoModal({
   author,
   name,
   year,
+  answer,
 }) {
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -25,6 +26,7 @@ function pictureInfoModal({
           // resizeMode="contain"
         />
         <Text style={styles.name}>{name}</Text>
+        <Text>{answer}</Text>
         <Text style={styles.text}>
           {author}, {year}
         </Text>

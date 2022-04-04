@@ -18,7 +18,7 @@ function gameEndModal({
           source={require("../assets/color-palette-face.png")}
         />
         <Text style={styles.name}>Good job!</Text>
-        <Text style={styles.score}>Score</Text>
+        <Text style={styles.score}>Score: {score} / 10</Text>
         <View style={styles.buttonsContainer}>
           <MyButton
             style={styles.button}
