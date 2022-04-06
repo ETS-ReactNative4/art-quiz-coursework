@@ -1,11 +1,12 @@
-import { View, Text, FlatList, Image, Modal, StyleSheet } from "react-native";
+import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 import { CATEGORIES } from "../data/dummy-data";
 import IMAGES from "../data/images";
-
 import Colors from "../constants/Colors";
+
 import ArtistQuestionItem from "../components/ArtistQuestionItem";
 import PictureInfoModal from "../components/pictureInfoModal";
 import GameEndModal from "../components/gameEndModal";
@@ -31,9 +32,9 @@ function QuestionsScreen({ route, navigation }) {
 
   let answers = [
     rightAnswer.imageNum,
-    getRandomNum(count + 1, 100),
-    getRandomNum(count + 1, 100),
-    getRandomNum(count + 1, 100),
+    getRandomNum(count + 1, 119),
+    getRandomNum(count + 1, 119),
+    getRandomNum(count + 1, 119),
   ];
 
   shake(answers);
@@ -67,10 +68,6 @@ function QuestionsScreen({ route, navigation }) {
   }, [navigation]);
 
   function renderCategoryItem(itemData) {
-    // answer =
-    //   rightAnswer.imageNum == itemData.item.imageNum
-    //     ? "ответ верный"
-    //     : "ответ НЕверный";
     return mainCategory === "ArtistsCategoriesScreen" ? (
       <ArtistQuestionItem
         num={itemData.item.name}
@@ -113,7 +110,9 @@ function QuestionsScreen({ route, navigation }) {
         renderItem={renderCategoryItem.bind()}
         numColumns={2}
       />
-      <Text>Current score: {score}</Text>
+      <Text style={[styles.score, { marginTop: 5 }]}>
+        Current score: {score}
+      </Text>
       <PictureInfoModal
         modalVisible={modalVisible}
         onPressProp={() => {
@@ -128,14 +127,38 @@ function QuestionsScreen({ route, navigation }) {
         count={count}
         onP={() => setModalEnd(true)}
         answer={
-          selectedAnswer === rightAnswer.imageNum
-            ? `Верно.  Score: ${score + 1}`
-            : `Неверно. Score: ${score}`
+          <View style={styles.scoreContainer}>
+            <AntDesign
+              name={
+                selectedAnswer === rightAnswer.imageNum
+                  ? "checkcircle"
+                  : "closecirc"
+              }
+              size={39}
+              color={
+                selectedAnswer === rightAnswer.imageNum
+                  ? Colors.green
+                  : Colors.red
+              }
+            />
+            <Text style={styles.score}>Score: {score + 1}</Text>
+          </View>
+
+          // selectedAnswer === rightAnswer.imageNum ? (
+          //   <View style={styles.scoreContainer}>
+          //     <AntDesign name="checkcircle" size={39} color={Colors.green} />
+          //     <Text style={styles.score}>Score: {score + 1}</Text>
+          //   </View>
+          // ) : (
+          //   <View style={styles.scoreContainer}>
+          //     <AntDesign name="closecircle" size={39} color={Colors.red} />
+          //     <Text style={styles.score}>Score: {score + 1}</Text>
+          //   </View>
+          // )
         }
       />
       <GameEndModal
         modalVisible={modalEnd}
-        name="END the game"
         count={9}
         score={score + 1}
         onPressHome={() => {
@@ -172,5 +195,16 @@ const styles = StyleSheet.create({
     height: 300,
     marginVertical: 10,
     borderRadius: 15,
+  },
+  scoreContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 5,
+  },
+  score: {
+    fontSize: 19,
+    fontWeight: "bold",
+    letterSpacing: 1,
   },
 });

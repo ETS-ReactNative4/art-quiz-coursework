@@ -26,10 +26,10 @@ function pictureInfoModal({
           // resizeMode="contain"
         />
         <Text style={styles.name}>{name}</Text>
-        <Text>{answer}</Text>
         <Text style={styles.text}>
           {author}, {year}
         </Text>
+        <Text>{answer}</Text>
         <MyButton
           style={styles.button}
           title={

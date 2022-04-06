@@ -58,16 +58,17 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
     color: Colors.primary,
   },
-  text: {
-    fontSize: 19,
-    fontStyle: "italic",
-    textAlign: "center",
-    marginVertical: 5,
-  },
   buttonsContainer: {
     flexDirection: "row",
   },
   button: {
     marginHorizontal: 15,
+  },
+  score: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "black",
+    // color: Colors.primary,
+    letterSpacing: 1,
   },
 });
