@@ -10,14 +10,18 @@ function gameEndModal({
   count,
   score,
 }) {
+  const image =
+    score === 10
+      ? require("../assets/trophy.png")
+      : require("../assets/color-palette-face.png");
+
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
       <View style={styles.modalContainer}>
-        <Image
-          style={styles.image}
-          source={require("../assets/color-palette-face.png")}
-        />
-        <Text style={styles.name}>Good job!</Text>
+        <Image style={styles.image} source={image} />
+        <Text style={styles.name}>
+          {score === 10 ? "Congratulations!" : "Good job!"}
+        </Text>
         <Text style={styles.score}>Score: {score} / 10</Text>
         <View style={styles.buttonsContainer}>
           <MyButton
@@ -51,11 +55,11 @@ const styles = StyleSheet.create({
     height: 300,
   },
   name: {
-    fontSize: 45,
+    fontSize: 42,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 9,
-    letterSpacing: 3,
+    letterSpacing: 1,
     color: Colors.primary,
   },
   buttonsContainer: {

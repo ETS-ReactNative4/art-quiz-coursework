@@ -132,7 +132,7 @@ function QuestionsScreen({ route, navigation }) {
               name={
                 selectedAnswer === rightAnswer.imageNum
                   ? "checkcircle"
-                  : "closecirc"
+                  : "closecircle"
               }
               size={39}
               color={
@@ -143,18 +143,6 @@ function QuestionsScreen({ route, navigation }) {
             />
             <Text style={styles.score}>Score: {score + 1}</Text>
           </View>
-
-          // selectedAnswer === rightAnswer.imageNum ? (
-          //   <View style={styles.scoreContainer}>
-          //     <AntDesign name="checkcircle" size={39} color={Colors.green} />
-          //     <Text style={styles.score}>Score: {score + 1}</Text>
-          //   </View>
-          // ) : (
-          //   <View style={styles.scoreContainer}>
-          //     <AntDesign name="closecircle" size={39} color={Colors.red} />
-          //     <Text style={styles.score}>Score: {score + 1}</Text>
-          //   </View>
-          // )
         }
       />
       <GameEndModal
