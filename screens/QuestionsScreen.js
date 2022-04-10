@@ -1,6 +1,8 @@
+import * as React from "react";
 import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 
 import { CATEGORIES } from "../data/dummy-data";
@@ -29,6 +31,10 @@ function QuestionsScreen({ route, navigation }) {
   );
 
   const rightAnswer = selectedCategory.artistsQuiz[count];
+  const questionTitle =
+    mainCategory === "ArtistsCategoriesScreen"
+      ? "Which is " + rightAnswer.author + " picture?"
+      : "Who is the author of this picture?";
 
   let answers = [
     rightAnswer.imageNum,
@@ -56,10 +62,12 @@ function QuestionsScreen({ route, navigation }) {
     return Math.round(Math.random() * (max - min)) + min;
   }
 
-  const questionTitle =
-    mainCategory === "ArtistsCategoriesScreen"
-      ? "Which is " + rightAnswer.author + " picture?"
-      : "Who is the author of this picture?";
+  async function playSound(path) {
+    const sound = new Audio.Sound();
+
+    await sound.loadAsync(path);
+    await sound.playAsync();
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -83,6 +91,7 @@ function QuestionsScreen({ route, navigation }) {
         onPress={() => {
           setSelectedAnswer(itemData.item.imageNum);
           setModalVisible(true);
+          // selectedAnswer === rightAnswer.imageNum ? playSound() : null;
         }}
       >
         {itemData.item.author}
@@ -116,7 +125,13 @@ function QuestionsScreen({ route, navigation }) {
       <PictureInfoModal
         modalVisible={modalVisible}
         onPressProp={() => {
-          selectedAnswer === rightAnswer.imageNum ? setScore(score + 1) : null;
+          // selectedAnswer === rightAnswer.imageNum ? setScore(score + 1) : null;
+          if (selectedAnswer === rightAnswer.imageNum) {
+            setScore(score + 1);
+            playSound(require("../assets/sounds/right-1.mp3"));
+          } else {
+            playSound(require("../assets/sounds/wrong.mp3"));
+          }
           setCount(count + 1);
           setModalVisible(!modalVisible);
         }}
