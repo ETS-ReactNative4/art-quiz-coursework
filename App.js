@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Modal, Button } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
@@ -7,12 +8,15 @@ import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import QuestionsScreen from "./screens/QuestionsScreen";
+import SettingsModal from "./components/SettingsModal";
 import Colors from "./constants/Colors";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   // const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <>
       <StatusBar style="dark" />
@@ -38,7 +42,7 @@ export default function App() {
                     name="settings"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a settings-button!")}
+                    onPress={() => setModalVisible(true)}
                   />
                 </View>
               ),
@@ -52,16 +56,16 @@ export default function App() {
               headerRight: () => (
                 <View style={styles.iconsContainer}>
                   <Feather
-                    name="home"
+                    name="star"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => navigation.popToTop()}
+                    onPress={() => alert("This is a score-button!")}
                   />
                   <Feather
                     name="settings"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a settings-button!")}
+                    onPress={() => setModalVisible(true)}
                   />
                 </View>
               ),
@@ -75,18 +79,16 @@ export default function App() {
               headerRight: () => (
                 <View style={styles.iconsContainer}>
                   <Feather
-                    name="home"
+                    name="star"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a home-button!")}
+                    onPress={() => alert("This is a score-button!")}
                   />
                   <Feather
                     name="settings"
                     size={24}
                     color={Colors.primary}
-                    onPress={({ navigation }) =>
-                      navigation.navigate("HomeScreen")
-                    }
+                    onPress={() => setModalVisible(true)}
                   />
                 </View>
               ),
@@ -100,16 +102,16 @@ export default function App() {
               headerRight: () => (
                 <View style={styles.iconsContainer}>
                   <Feather
-                    name="home"
+                    name="star"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a home-button!")}
+                    onPress={() => alert("This is a score-button!")}
                   />
                   <Feather
                     name="settings"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a settings-button!")}
+                    onPress={() => setModalVisible(true)}
                   />
                 </View>
               ),
@@ -117,6 +119,10 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      <SettingsModal
+        modalVisible={modalVisible}
+        onPressProp={() => setModalVisible(false)}
+      />
     </>
   );
 }
