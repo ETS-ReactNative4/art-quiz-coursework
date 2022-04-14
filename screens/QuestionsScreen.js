@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Vibration,
+  StyleSheet,
+} from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Audio } from "expo-av";
@@ -84,6 +91,7 @@ function QuestionsScreen({ route, navigation }) {
         onPressProp={() => {
           setSelectedAnswer(itemData.item.imageNum);
           setModalVisible(true);
+          Vibration.vibrate(100);
         }}
       />
     ) : (
@@ -91,6 +99,7 @@ function QuestionsScreen({ route, navigation }) {
         onPress={() => {
           setSelectedAnswer(itemData.item.imageNum);
           setModalVisible(true);
+          Vibration.vibrate(100);
           // selectedAnswer === rightAnswer.imageNum ? playSound() : null;
         }}
       >

@@ -3,12 +3,10 @@ import { CATEGORIES } from "../data/dummy-data";
 
 import MyButton from "../components/MyButton";
 import HomeCategoryItem from "../components/HomeCategoryItem";
-import Audio from "../components/Audio";
 
 function HomeScreen() {
   return (
     <View>
-      <Audio />
       <HomeCategoryItem
         title="Artists Quiz"
         categoryScreen="ArtistsCategoriesScreen"

@@ -1,4 +1,11 @@
-import { View, Text, Image, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../constants/Colors";
@@ -29,6 +36,7 @@ function HomeCategoryItem({ title, categoryScreen }) {
         <Image
           style={styles.image}
           source={{ uri: selectedQuiz.categoryUrl }}
+          resizeMethod="resize"
         />
         <Text style={styles.title}>{title}</Text>
       </Pressable>
@@ -41,6 +49,7 @@ export default HomeCategoryItem;
 const styles = StyleSheet.create({
   container: {
     // width: "60%",
+    height: Dimensions.get("screen").height / 3 - 10,
     marginHorizontal: 60,
     marginVertical: 15,
     borderColor: Colors.primary,
@@ -48,12 +57,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   image: {
-    width: 175,
-    height: 220,
-    marginHorizontal: 25,
+    width: 160,
+    height: Dimensions.get("screen").height / 3 - 100,
   },
   button: {
-    padding: 22,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // flexDirection: "row-reverse",
+    // padding: 2,
   },
   buttonPressed: {
     opacity: 0.6,
@@ -63,6 +75,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: Colors.primary,
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
 });
