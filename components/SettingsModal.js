@@ -8,7 +8,23 @@ import Colors from "../constants/Colors";
 
 function SettingsModal({ modalVisible, onPressProp }) {
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const toggleSwitch = () => {
+    setIsEnabled((previousState) => !previousState);
+  };
+
+  // const sound = new Audio.Sound();
+  async function playSound(path) {
+    this.sound = new Audio.Sound();
+
+    await this.sound.loadAsync(path);
+    await this.sound.playAsync();
+    // await sound.unloadAsync();
+  }
+
+  async function stopSound(path) {
+    await this.sound.stopAsync();
+    // await sound.unloadAsync();
+  }
 
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -21,12 +37,19 @@ function SettingsModal({ modalVisible, onPressProp }) {
             trackColor={{ false: "#767577", true: "#EB268A" }}
             thumbColor={isEnabled ? "#C88BF9" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
+            onValueChange={() => {
+              toggleSwitch();
+              console.log(isEnabled);
+              !isEnabled
+                ? playSound({
+                    uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                  })
+                : stopSound();
+            }}
             value={isEnabled}
             style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
           />
         </View>
-        {/* <Audio /> */}
       </View>
     </Modal>
   );
