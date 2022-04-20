@@ -102,6 +102,29 @@ export default function App() {
             }}
           />
           <Stack.Screen
+            name="MuseumCategoriesScreen"
+            component={CategoriesScreen}
+            options={{
+              title: "Museum Quiz",
+              headerRight: () => (
+                <View style={styles.iconsContainer}>
+                  <Feather
+                    name="star"
+                    size={24}
+                    color={Colors.primary}
+                    onPress={() => alert("This is a score-button!")}
+                  />
+                  <Feather
+                    name="settings"
+                    size={24}
+                    color={Colors.primary}
+                    onPress={() => setModalVisible(true)}
+                  />
+                </View>
+              ),
+            }}
+          />
+          <Stack.Screen
             name="QuestionsScreen"
             component={QuestionsScreen}
             options={{

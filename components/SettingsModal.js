@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, Modal, Button, Switch, StyleSheet } from "react-native";
 import { Audio } from "expo-av";
 
-// import Audio from "../components/Audio";
 import CloseButton from "./CloseButton";
 import Colors from "../constants/Colors";
 
