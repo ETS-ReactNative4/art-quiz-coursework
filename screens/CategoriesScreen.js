@@ -7,6 +7,10 @@ import { CATEGORIES } from "../data/dummy-data";
 
 function CategoriesScreen({ route, navigation }) {
   const [titleApi, setTitleApi] = useState("");
+  const [imageApiUrl, setImageApiUrl] = useState(
+    "https://images.metmuseum.org/CRDImages/ep/original/DT1567.jpg"
+  );
+  // const [imageApiUrl, setImageApiUrl] = useState("");
 
   const mainCategory = route.params.categoryScreen;
 
@@ -33,6 +37,7 @@ function CategoriesScreen({ route, navigation }) {
     const dataObject = await resObject.json();
 
     setTitleApi(dataObject.title);
+    setImageApiUrl(dataObject.primaryImage);
   }
 
   const getImageDimensions = (file, width, height) =>
@@ -66,6 +71,10 @@ function CategoriesScreen({ route, navigation }) {
   return (
     <View>
       <Button title="press" onPress={getMuseumDepartmentNumber} />
+      <Image
+        style={{ width: 100, height: 100 }}
+        source={{ uri: imageApiUrl }}
+      />
       <Text>titleApi: {titleApi}</Text>
       <FlatList
         data={CATEGORIES}
