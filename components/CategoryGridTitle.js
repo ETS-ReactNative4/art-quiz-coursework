@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   image: {
-    width: 170,
-    height: 170,
+    // width: 170,
+    // height: 170,
     // borderBottomRightRadius: 0,
     // borderBottomLeftRadius: 8,
   },

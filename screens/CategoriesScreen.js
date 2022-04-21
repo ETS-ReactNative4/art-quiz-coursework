@@ -1,11 +1,21 @@
-import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+} from "react-native";
 import { useState } from "react";
 
 import CategoryGridTitle from "../components/CategoryGridTitle";
+import GreetingMuseumModal from "../components/GreetingMuseumModal";
 
 import { CATEGORIES } from "../data/dummy-data";
 
 function CategoriesScreen({ route, navigation }) {
+  const [isGreeting, setIsGreeting] = useState(true);
   const [arrayDepartments, setArrayDepartments] = useState([]);
   const [titleApi, setTitleApi] = useState("");
   const [imageApiUrl, setImageApiUrl] = useState(
@@ -75,21 +85,36 @@ function CategoriesScreen({ route, navigation }) {
 
   return (
     <View>
-      <Button title="press" onPress={getMuseumDepartmentNumber} />
-      <Image
-        style={{ width: 100, height: 100 }}
-        source={{ uri: imageApiUrl }}
-      />
-      <Text>
-        titleApi: {titleApi} {mainCategory}
-      </Text>
       {mainCategory === "MuseumCategoriesScreen" ? (
-        <FlatList
-          data={arrayDepartments}
-          keyExtractor={(item) => item.departmentId}
-          renderItem={renderCategoryItemForMuseum.bind()}
-          numColumns={2}
-        />
+        <View style={styles.container}>
+          {isGreeting ? (
+            <GreetingMuseumModal
+              modalVisible={isGreeting}
+              onPress={() => {
+                getMuseumDepartmentNumber();
+                setIsGreeting(false);
+              }}
+            />
+          ) : // <Button
+          //   title="Press to continue and wait please"
+          // onPress={() => {
+          //   getMuseumDepartmentNumber();
+          //   setIsGreeting(false);
+          // }}
+          // />
+          null}
+          {/* <Image
+            style={{ width: 100, height: 100 }}
+            source={{ uri: imageApiUrl }}
+          />
+          <Text>titleApi: {titleApi}</Text> */}
+          <FlatList
+            data={arrayDepartments}
+            keyExtractor={(item) => item.departmentId}
+            renderItem={renderCategoryItemForMuseum.bind()}
+            numColumns={2}
+          />
+        </View>
       ) : (
         <FlatList
           data={CATEGORIES}
@@ -105,7 +130,11 @@ function CategoriesScreen({ route, navigation }) {
 export default CategoriesScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    height: Dimensions.get("window").height - 60,
+  },
   boxTitle: {
-    backgroundColor: "green",
+    backgroundColor: "orange",
+    padding: 20,
   },
 });
