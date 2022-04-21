@@ -18,13 +18,11 @@ function GreetingMuseumModal({ modalVisible, onPress }) {
         <Image
           style={styles.image}
           source={{
-            // uri: `https://raw.githubusercontent.com/VeronikaBogdan/art-quiz-coursework/main/assets/art-8.png`,
             uri: `https://raw.githubusercontent.com/VeronikaBogdan/art-quiz-coursework/main/assets/art-${randNum}.png`,
           }}
         />
         <Text style={styles.name}>
-          Welcome to the Metropolitan Museum of Art where art comes alive in the
-          galleries
+          The Metropolitan Museum of Art: here art comes alive
         </Text>
         <MyButton
           style={styles.button}

@@ -1,12 +1,4 @@
-import {
-  Button,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-} from "react-native";
+import { FlatList, StyleSheet, View, Dimensions } from "react-native";
 import { useState } from "react";
 
 import CategoryGridTitle from "../components/CategoryGridTitle";
@@ -95,19 +87,7 @@ function CategoriesScreen({ route, navigation }) {
                 setIsGreeting(false);
               }}
             />
-          ) : // <Button
-          //   title="Press to continue and wait please"
-          // onPress={() => {
-          //   getMuseumDepartmentNumber();
-          //   setIsGreeting(false);
-          // }}
-          // />
-          null}
-          {/* <Image
-            style={{ width: 100, height: 100 }}
-            source={{ uri: imageApiUrl }}
-          />
-          <Text>titleApi: {titleApi}</Text> */}
+          ) : null}
           <FlatList
             data={arrayDepartments}
             keyExtractor={(item) => item.departmentId}

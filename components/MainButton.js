@@ -1,19 +1,9 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Audio } from "expo-av";
 
 import Colors from "../constants/Colors";
 
 const MainButton = (props) => {
-  // React.useEffect(() => {
-  //   return sound
-  //     ? () => {
-  //         console.log("Unloading Sound");
-  //         sound.unloadAsync();
-  //       }
-  //     : undefined;
-  // }, [sound]);
-
   return (
     <TouchableOpacity
       activeOpacity={0.5}
