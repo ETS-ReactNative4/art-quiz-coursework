@@ -1,4 +1,4 @@
-import { Button, FlatList, Image, Text, View } from "react-native";
+import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
 
 import CategoryGridTitle from "../components/CategoryGridTitle";
@@ -6,6 +6,7 @@ import CategoryGridTitle from "../components/CategoryGridTitle";
 import { CATEGORIES } from "../data/dummy-data";
 
 function CategoriesScreen({ route, navigation }) {
+  const [arrayDepartments, setArrayDepartments] = useState([]);
   const [titleApi, setTitleApi] = useState("");
   const [imageApiUrl, setImageApiUrl] = useState(
     "https://images.metmuseum.org/CRDImages/ep/original/DT1567.jpg"
@@ -26,6 +27,9 @@ function CategoriesScreen({ route, navigation }) {
     const res = await fetch(url);
     const data = await res.json();
 
+    setArrayDepartments(data.departments);
+    // let depIds = data.departments.map((item, index) => item.displayName);
+
     const departmentIds = data.departments[getRandomNum(0, 9)].departmentId;
     const urlDep = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${departmentIds}`;
     const resDep = await fetch(urlDep);
@@ -39,16 +43,6 @@ function CategoriesScreen({ route, navigation }) {
     setTitleApi(dataObject.title);
     setImageApiUrl(dataObject.primaryImage);
   }
-
-  const getImageDimensions = (file, width, height) =>
-    new Promise((resolve, reject) => {
-      Image.getSize(
-        file,
-        // (width, height) =>
-        resolve({ width, height }),
-        reject
-      );
-    });
 
   function renderCategoryItem(itemData) {
     // function pressHandler() {
@@ -68,6 +62,17 @@ function CategoriesScreen({ route, navigation }) {
       />
     );
   }
+
+  function renderCategoryItemForMuseum(itemData) {
+    return (
+      <CategoryGridTitle
+        title={itemData.item.displayName}
+        // mainCategory={mainCategory}
+        style={styles.boxTitle}
+      />
+    );
+  }
+
   return (
     <View>
       <Button title="press" onPress={getMuseumDepartmentNumber} />
@@ -75,15 +80,32 @@ function CategoriesScreen({ route, navigation }) {
         style={{ width: 100, height: 100 }}
         source={{ uri: imageApiUrl }}
       />
-      <Text>titleApi: {titleApi}</Text>
-      <FlatList
-        data={CATEGORIES}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCategoryItem.bind()}
-        numColumns={2}
-      />
+      <Text>
+        titleApi: {titleApi} {mainCategory}
+      </Text>
+      {mainCategory === "MuseumCategoriesScreen" ? (
+        <FlatList
+          data={arrayDepartments}
+          keyExtractor={(item) => item.departmentId}
+          renderItem={renderCategoryItemForMuseum.bind()}
+          numColumns={2}
+        />
+      ) : (
+        <FlatList
+          data={CATEGORIES}
+          keyExtractor={(item) => item.id}
+          renderItem={renderCategoryItem.bind()}
+          numColumns={2}
+        />
+      )}
     </View>
   );
 }
 
 export default CategoriesScreen;
+
+const styles = StyleSheet.create({
+  boxTitle: {
+    backgroundColor: "green",
+  },
+});

@@ -10,7 +10,14 @@ import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../constants/Colors";
 
-function CategoryGridTitle({ title, color, image, onPressProp, mainCategory }) {
+function CategoryGridTitle({
+  title,
+  color,
+  image,
+  onPressProp,
+  mainCategory,
+  style,
+}) {
   const navigation = useNavigation();
 
   // const mainCategory = route.params.categoryScreen;
@@ -23,7 +30,7 @@ function CategoryGridTitle({ title, color, image, onPressProp, mainCategory }) {
   }
 
   return (
-    <View style={styles.gridItem}>
+    <View style={[styles.gridItem, style]}>
       <Pressable
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => [
