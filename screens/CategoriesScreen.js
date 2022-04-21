@@ -1,9 +1,13 @@
-import { Button, FlatList, Text, View } from "react-native";
+import { Button, FlatList, Image, Text, View } from "react-native";
+import { useState } from "react";
+
 import CategoryGridTitle from "../components/CategoryGridTitle";
 
 import { CATEGORIES } from "../data/dummy-data";
 
 function CategoriesScreen({ route, navigation }) {
+  const [titleApi, setTitleApi] = useState("");
+
   const mainCategory = route.params.categoryScreen;
 
   function getRandomNum(a, b) {
@@ -17,17 +21,29 @@ function CategoriesScreen({ route, navigation }) {
       "https://collectionapi.metmuseum.org/public/collection/v1/departments";
     const res = await fetch(url);
     const data = await res.json();
-    // console.log(data.departments[getRandomNum(0, 9)]);
-    console.log(data.departments[getRandomNum(0, 9)].departmentId);
-    console.log(data.departments[getRandomNum(0, 9)].displayName);
 
-    const urlDep =
-      "https://collectionapi.metmuseum.org/public/collection/v1/departments";
-    const resDep = await fetch(url);
-    const dataDepartments = await res.json();
+    const departmentIds = data.departments[getRandomNum(0, 9)].departmentId;
+    const urlDep = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${departmentIds}`;
+    const resDep = await fetch(urlDep);
+    const dataDepartments = await resDep.json();
 
-    // return [data.departments[getRandomNum(0, 9)].departmentId];
+    const objectID = dataDepartments.objectIDs[getRandomNum(0, 9)];
+    const urlObject = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`;
+    const resObject = await fetch(urlObject);
+    const dataObject = await resObject.json();
+
+    setTitleApi(dataObject.title);
   }
+
+  const getImageDimensions = (file, width, height) =>
+    new Promise((resolve, reject) => {
+      Image.getSize(
+        file,
+        // (width, height) =>
+        resolve({ width, height }),
+        reject
+      );
+    });
 
   function renderCategoryItem(itemData) {
     // function pressHandler() {
@@ -50,6 +66,7 @@ function CategoriesScreen({ route, navigation }) {
   return (
     <View>
       <Button title="press" onPress={getMuseumDepartmentNumber} />
+      <Text>titleApi: {titleApi}</Text>
       <FlatList
         data={CATEGORIES}
         keyExtractor={(item) => item.id}
