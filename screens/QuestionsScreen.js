@@ -83,29 +83,34 @@ function QuestionsScreen({ route, navigation }) {
   }, [navigation]);
 
   function renderCategoryItem(itemData) {
-    return mainCategory === "ArtistsCategoriesScreen" ? (
-      <ArtistQuestionItem
-        num={itemData.item.name}
-        imgNum={itemData.item.imageNum}
-        color={Colors.green}
-        onPressProp={() => {
-          setSelectedAnswer(itemData.item.imageNum);
-          setModalVisible(true);
-          Vibration.vibrate(100);
-        }}
-      />
-    ) : (
-      <MainButton
-        onPress={() => {
-          setSelectedAnswer(itemData.item.imageNum);
-          setModalVisible(true);
-          Vibration.vibrate(100);
-          // selectedAnswer === rightAnswer.imageNum ? playSound() : null;
-        }}
-      >
-        {itemData.item.author}
-      </MainButton>
-    );
+    if (mainCategory === "ArtistsCategoriesScreen")
+      return (
+        <ArtistQuestionItem
+          num={itemData.item.name}
+          imgNum={itemData.item.imageNum}
+          color={Colors.green}
+          onPressProp={() => {
+            setSelectedAnswer(itemData.item.imageNum);
+            setModalVisible(true);
+            Vibration.vibrate(100);
+          }}
+        />
+      );
+    if (mainCategory === "PicturesCategoriesScreen")
+      return (
+        <MainButton
+          onPress={() => {
+            setSelectedAnswer(itemData.item.imageNum);
+            setModalVisible(true);
+            Vibration.vibrate(100);
+            // selectedAnswer === rightAnswer.imageNum ? playSound() : null;
+          }}
+        >
+          {itemData.item.author}
+        </MainButton>
+      );
+    if (mainCategory === "MuseumCategoriesScreen")
+      return <Text>museum item</Text>;
   }
 
   return (
@@ -122,12 +127,20 @@ function QuestionsScreen({ route, navigation }) {
           resizeMode="contain"
         />
       )}
-      <FlatList
+      {mainCategory !== "MuseumCategoriesScreen" ? (
+        <FlatList
+          data={dataAnswers}
+          keyExtractor={(item) => item.author}
+          renderItem={renderCategoryItem.bind()}
+          numColumns={2}
+        />
+      ) : null}
+      {/* <FlatList
         data={dataAnswers}
         keyExtractor={(item) => item.author}
         renderItem={renderCategoryItem.bind()}
         numColumns={2}
-      />
+      /> */}
       <Text style={[styles.score, { marginTop: 5 }]}>
         Current score: {score}
       </Text>

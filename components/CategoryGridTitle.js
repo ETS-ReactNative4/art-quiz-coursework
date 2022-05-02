@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     paddingVertical: 7,
+    textAlign: "center",
   },
   image: {
     // width: 170,

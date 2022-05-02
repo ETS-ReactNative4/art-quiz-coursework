@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Modal, StyleSheet } from "react-native";
+import { View, Modal, StyleSheet, Button } from "react-native";
 import { Audio } from "expo-av";
 
 import CloseButton from "./CloseButton";
@@ -26,6 +26,14 @@ function SettingsModal({ modalVisible, onPressProp }) {
     // await sound.unloadAsync();
   }
 
+  async function getQuote() {
+    // https://free-quotes-api.herokuapp.com/
+    const url = "https://free-quotes-api.herokuapp.com/";
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data);
+  }
+
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
       <View style={styles.modalContainer}>
@@ -34,15 +42,23 @@ function SettingsModal({ modalVisible, onPressProp }) {
           title="Music"
           onPress={() => {
             toggleSwitch();
-            console.log(isEnabled);
+            // console.log(isEnabled);
             !isEnabled
-              ? playSound({
-                  uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-                })
+              ? playSound(require("../assets/sounds/RiverFlowsInYou.mp3"))
               : stopSound();
           }}
           isEnabled={isEnabled}
         />
+        <Button title="quote" onPress={getQuote} />
+        {/* <SettingItem
+          title="Get Quote!"
+          onPress={() => {
+            toggleSwitch();
+            // console.log(isEnabled);
+            !isEnabled ? getQuote() : null;
+          }}
+          isEnabled={isEnabled}
+        /> */}
       </View>
     </Modal>
   );
