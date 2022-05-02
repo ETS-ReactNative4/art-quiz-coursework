@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, Modal, StyleSheet, Button } from "react-native";
 import { Audio } from "expo-av";
+import * as Sharing from "expo-sharing";
+import * as Notifications from "expo-notifications";
 
 import CloseButton from "./CloseButton";
 import SettingItem from "./SettingItem";
@@ -8,6 +10,11 @@ import Colors from "../constants/Colors";
 
 function SettingsModal({ modalVisible, onPressProp }) {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [quoteApi, setQuoteApi] = useState(
+    "Be happy for this moment. This moment is your life"
+  );
+  const [authorApi, setAuthorApi] = useState("Omar Khayyam");
+
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
   };
@@ -27,12 +34,28 @@ function SettingsModal({ modalVisible, onPressProp }) {
   }
 
   async function getQuote() {
-    // https://free-quotes-api.herokuapp.com/
     const url = "https://free-quotes-api.herokuapp.com/";
     const res = await fetch(url);
     const data = await res.json();
     console.log(data);
+    setQuoteApi(data.quote);
+    setAuthorApi(data.author);
   }
+
+  const triggerNotificationHandler = () => {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Motivation quote here!",
+        body: `${quoteApi} (c) ${authorApi}`,
+        color: Colors.primary,
+        subtitle: `${authorApi}:`,
+        sound: require("../assets/sounds/right-2.mp3"),
+      },
+      trigger: {
+        seconds: 5,
+      },
+    });
+  };
 
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -49,7 +72,14 @@ function SettingsModal({ modalVisible, onPressProp }) {
           }}
           isEnabled={isEnabled}
         />
-        <Button title="quote" onPress={getQuote} />
+        <Button
+          title="Trigger Notifications"
+          onPress={() => {
+            getQuote();
+            triggerNotificationHandler();
+          }}
+          color="#1ba"
+        />
         {/* <SettingItem
           title="Get Quote!"
           onPress={() => {
