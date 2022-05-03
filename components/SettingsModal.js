@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, Modal, StyleSheet, Button } from "react-native";
+import { View, Modal, StyleSheet, Text, Dimensions } from "react-native";
 import { Audio } from "expo-av";
 import * as Sharing from "expo-sharing";
 import * as Notifications from "expo-notifications";
 
 import CloseButton from "./CloseButton";
 import SettingItem from "./SettingItem";
+import MyButton from "./MyButton";
 import Colors from "../constants/Colors";
 
 function SettingsModal({ modalVisible, onPressProp }) {
@@ -72,23 +73,17 @@ function SettingsModal({ modalVisible, onPressProp }) {
           }}
           isEnabled={isEnabled}
         />
-        <Button
-          title="Trigger Notifications"
-          onPress={() => {
-            getQuote();
-            triggerNotificationHandler();
-          }}
-          color="#1ba"
-        />
-        {/* <SettingItem
-          title="Get Quote!"
-          onPress={() => {
-            toggleSwitch();
-            // console.log(isEnabled);
-            !isEnabled ? getQuote() : null;
-          }}
-          isEnabled={isEnabled}
-        /> */}
+        <View style={styles.item}>
+          <Text style={styles.text}>Get phrase right now!</Text>
+          <MyButton
+            title="Press"
+            style={styles.button}
+            onPressProp={() => {
+              getQuote();
+              triggerNotificationHandler();
+            }}
+          />
+        </View>
       </View>
     </Modal>
   );
@@ -114,5 +109,23 @@ const styles = StyleSheet.create({
   closeButton: {
     // borderWidth: 1,
     marginBottom: 60,
+  },
+  item: {
+    flexDirection: "row",
+    width: Dimensions.get("screen").width - 90,
+    marginHorizontal: 10,
+    justifyContent: "space-between",
+    // borderWidth: 1,
+  },
+  text: {
+    // flex: 1,
+    width: 160,
+    fontSize: 24,
+    textAlign: "center",
+    color: Colors.accent,
+  },
+  button: {
+    // width: 100,
+    marginHorizontal: 0,
   },
 });
