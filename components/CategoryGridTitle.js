@@ -22,12 +22,12 @@ function CategoryGridTitle({
 
   // const mainCategory = route.params.categoryScreen;
 
-  function selectQuizItemHadler() {
-    navigation.navigate("QuestionsScreen", {
-      quizTitle: title,
-      mainCategory: mainCategory,
-    });
-  }
+  // function selectQuizItemHadler() {
+  //   navigation.navigate("QuestionsScreen", {
+  //     quizTitle: title,
+  //     mainCategory: mainCategory,
+  //   });
+  // }
 
   return (
     <View style={[styles.gridItem, style]}>
@@ -37,7 +37,8 @@ function CategoryGridTitle({
           styles.button,
           pressed ? styles.buttonPressed : null,
         ]}
-        onPress={selectQuizItemHadler}
+        // onPress={selectQuizItemHadler}
+        onPress={onPressProp}
       >
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Text style={styles.title}>{title}</Text>

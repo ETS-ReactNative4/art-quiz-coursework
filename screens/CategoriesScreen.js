@@ -1,19 +1,31 @@
-import { FlatList, StyleSheet, View, Dimensions } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+  Text,
+  Button,
+} from "react-native";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import CategoryGridTitle from "../components/CategoryGridTitle";
 import GreetingMuseumModal from "../components/GreetingMuseumModal";
 
 import { CATEGORIES } from "../data/dummy-data";
 
-function CategoriesScreen({ route, navigation }) {
+function CategoriesScreen({ route /*, navigation*/ }) {
   const [isGreeting, setIsGreeting] = useState(true);
   const [arrayDepartments, setArrayDepartments] = useState([]);
+  const [arrayItems, setArrayItems] = useState([]);
+  const [arrayItemsWrong, setArrayItemsWrong] = useState([]);
   const [titleApi, setTitleApi] = useState("");
   const [imageApiUrl, setImageApiUrl] = useState(
     "https://images.metmuseum.org/CRDImages/ep/original/DT1567.jpg"
   );
   // const [imageApiUrl, setImageApiUrl] = useState("");
+
+  const NAVIGATION = useNavigation();
 
   const mainCategory = route.params.categoryScreen;
 
@@ -32,10 +44,21 @@ function CategoriesScreen({ route, navigation }) {
     setArrayDepartments(data.departments);
     // let depIds = data.departments.map((item, index) => item.displayName);
 
-    const departmentIds = data.departments[getRandomNum(0, 9)].departmentId;
+    const departmentIds = data.departments[0].departmentId;
+    // const urlDep = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${departmentIds}`;
     const urlDep = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${departmentIds}`;
     const resDep = await fetch(urlDep);
     const dataDepartments = await resDep.json();
+
+    setArrayItems([
+      ...dataDepartments.objectIDs.filter((item, index) => index < 10),
+    ]);
+
+    setArrayItemsWrong([
+      ...dataDepartments.objectIDs.filter(
+        (item, index) => index >= 10 && index < 70
+      ),
+    ]);
 
     const objectID = dataDepartments.objectIDs[getRandomNum(0, 9)];
     const urlObject = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`;
@@ -47,12 +70,12 @@ function CategoriesScreen({ route, navigation }) {
   }
 
   function renderCategoryItem(itemData) {
-    // function pressHandler() {
-    //   navigation.navigate('MealsOverview', {
-    //     categoryId: itemData.item.id,
-    // 		headerTitle: itemData.item.title,
-    //   });
-    // }
+    function selectQuizItemHadler() {
+      NAVIGATION.navigate("QuestionsScreen", {
+        quizTitle: itemData.item.title,
+        mainCategory: mainCategory,
+      });
+    }
 
     return (
       <CategoryGridTitle
@@ -60,18 +83,39 @@ function CategoriesScreen({ route, navigation }) {
         color={itemData.item.color}
         image={itemData.item.colorImage}
         mainCategory={mainCategory}
-        // onPressProp={pressHandler}
+        onPressProp={selectQuizItemHadler}
       />
     );
   }
 
   function renderCategoryItemForMuseum(itemData) {
+    function pressHandler() {
+      NAVIGATION.navigate("MuseumQuestionsScreen", {
+        quizTitle: itemData.item.displayName,
+        mainCategory: mainCategory,
+        id: itemData.item.departmentId,
+        rightTitle: titleApi,
+        rightImage: imageApiUrl,
+        // arrayItems: arrayItems,
+        // arrayItemsWrong: arrayItemsWrong,
+      });
+    }
+
     return (
-      <CategoryGridTitle
-        title={itemData.item.displayName}
-        // mainCategory={mainCategory}
-        style={styles.boxTitle}
-      />
+      <View>
+        <Button
+          title={itemData.item.displayName}
+          onPress={() => {
+            pressHandler();
+          }}
+        />
+      </View>
+      // <CategoryGridTitle
+      //   title={itemData.item.displayName}
+      //   // mainCategory={mainCategory}
+      //   style={styles.boxTitle}
+      //   onPressProp={pressHandler}
+      // />
     );
   }
 

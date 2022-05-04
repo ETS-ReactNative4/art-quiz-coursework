@@ -49,7 +49,7 @@ export default HomeCategoryItem;
 const styles = StyleSheet.create({
   container: {
     // width: "60%",
-    height: Dimensions.get("screen").height / 3 - 10,
+    height: Dimensions.get("window").height / 3 - 10,
     marginHorizontal: 60,
     marginVertical: 15,
     borderColor: Colors.primary,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 160,
-    height: Dimensions.get("screen").height / 3 - 100,
+    height: Dimensions.get("window").height / 3 - 100,
   },
   button: {
     flex: 1,

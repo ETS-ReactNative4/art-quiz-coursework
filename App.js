@@ -15,6 +15,7 @@ import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import QuestionsScreen from "./screens/QuestionsScreen";
+import MuseumQuestionsScreen from "./screens/MuseumQuestionsScreen";
 import SettingsModal from "./components/SettingsModal";
 import Colors from "./constants/Colors";
 
@@ -23,6 +24,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   // const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [isVibrated, setIsVibrated] = useState(100);
 
   return (
     <>
@@ -147,11 +149,36 @@ export default function App() {
               ),
             }}
           />
+          <Stack.Screen
+            name="MuseumQuestionsScreen"
+            component={MuseumQuestionsScreen}
+            options={{
+              title: "Blitz Quiz",
+              headerRight: () => (
+                <View style={styles.iconsContainer}>
+                  <Feather
+                    name="star"
+                    size={24}
+                    color={Colors.primary}
+                    onPress={() => alert("This is a score-button!")}
+                  />
+                  <Feather
+                    name="settings"
+                    size={24}
+                    color={Colors.primary}
+                    onPress={() => setModalVisible(true)}
+                  />
+                </View>
+              ),
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
       <SettingsModal
         modalVisible={modalVisible}
         onPressProp={() => setModalVisible(false)}
+        vibration={isVibrated}
+        onVibrated={() => setIsVibrated()}
       />
     </>
   );

@@ -9,15 +9,20 @@ import SettingItem from "./SettingItem";
 import MyButton from "./MyButton";
 import Colors from "../constants/Colors";
 
-function SettingsModal({ modalVisible, onPressProp }) {
+function SettingsModal({ modalVisible, onPressProp, vibration }) {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [isVibrated, setIsVibrated] = useState(false);
   const [quoteApi, setQuoteApi] = useState(
     "Be happy for this moment. This moment is your life"
   );
   const [authorApi, setAuthorApi] = useState("Omar Khayyam");
 
-  const toggleSwitch = () => {
+  const toggleSwitchEnabled = () => {
     setIsEnabled((previousState) => !previousState);
+  };
+
+  const toggleSwitchVibrated = () => {
+    setIsVibrated((previousState) => !previousState);
   };
 
   // const sound = new Audio.Sound();
@@ -65,13 +70,23 @@ function SettingsModal({ modalVisible, onPressProp }) {
         <SettingItem
           title="Music"
           onPress={() => {
-            toggleSwitch();
+            toggleSwitchEnabled();
             // console.log(isEnabled);
             !isEnabled
               ? playSound(require("../assets/sounds/RiverFlowsInYou.mp3"))
               : stopSound();
           }}
           isEnabled={isEnabled}
+        />
+        <SettingItem
+          title="Vibration"
+          onPress={() => {
+            toggleSwitchVibrated();
+            console.log(isVibrated);
+            vibration = !isVibrated ? 100 : 1;
+            console.log(vibration);
+          }}
+          isEnabled={isVibrated}
         />
         <View style={styles.item}>
           <Text style={styles.text}>Get phrase right now!</Text>
@@ -112,7 +127,7 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: "row",
-    width: Dimensions.get("screen").width - 90,
+    width: Dimensions.get("window").width - 90,
     marginHorizontal: 10,
     justifyContent: "space-between",
     // borderWidth: 1,

@@ -29,7 +29,6 @@ function gameEndModal({
             title="Home"
             onPressProp={onPressHome}
           />
-          <MyButton style={styles.button} title="Next quiz" />
         </View>
       </View>
     </Modal>

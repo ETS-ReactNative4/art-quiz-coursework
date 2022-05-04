@@ -23,7 +23,8 @@ import MyButton from "../components/MyButton";
 import MainButton from "../components/MainButton";
 
 function QuestionsScreen({ route, navigation }) {
-  // const navigation = useNavigation();
+  const NAVIGATION = useNavigation();
+
   const [count, setCount] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalEnd, setModalEnd] = useState(false);
@@ -46,8 +47,8 @@ function QuestionsScreen({ route, navigation }) {
   let answers = [
     rightAnswer.imageNum,
     getRandomNum(count + 1, 119),
-    getRandomNum(count + 1, 119),
-    getRandomNum(count + 1, 119),
+    getRandomNum(count + 2, 119),
+    getRandomNum(count + 3, 119),
   ];
 
   shake(answers);
@@ -81,6 +82,10 @@ function QuestionsScreen({ route, navigation }) {
       title: headerTitle,
     });
   }, [navigation]);
+
+  function pressHandler(screen) {
+    NAVIGATION.navigate(screen);
+  }
 
   function renderCategoryItem(itemData) {
     if (mainCategory === "ArtistsCategoriesScreen")
@@ -189,10 +194,10 @@ function QuestionsScreen({ route, navigation }) {
         onPressHome={() => {
           // setCount(count + 1);
           setModalEnd(!modalEnd);
-          //! ПЕРЕНАПРАВИТЬ НА СТРАНИЦУ КАТЕГОРИЙ !!!
           setModalVisible(!modalVisible);
           setCount(0);
           setScore(0);
+          pressHandler("HomeScreen");
         }}
       />
       {/* <MyButton title="NEXT" onPressProp={() => setCount(count + 1)} /> */}
