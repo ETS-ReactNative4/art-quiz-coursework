@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   Vibration,
+  Dimensions,
   StyleSheet,
 } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
@@ -39,10 +40,26 @@ function QuestionsScreen({ route, navigation }) {
   );
 
   const rightAnswer = selectedCategory.artistsQuiz[count];
-  const questionTitle =
-    mainCategory === "ArtistsCategoriesScreen"
-      ? "Which is " + rightAnswer.author + " picture?"
-      : "Who is the author of this picture?";
+  let questionTitle;
+
+  if (mainCategory === "ArtistsCategoriesScreen")
+    questionTitle = "Which is " + rightAnswer.author + " picture?";
+  else if (mainCategory === "PicturesCategoriesScreen")
+    questionTitle = "Who is the author of this picture?";
+  else
+    switch (getRandomNum(1, 3)) {
+      case 1:
+        questionTitle = `Is this picture painted by ${rightAnswer.author}?`;
+        break;
+      case 2:
+        questionTitle = `Is the name of this picture "${rightAnswer.name}"?`;
+        break;
+      case 3:
+        questionTitle = `Was this picture painted in ${rightAnswer.year}?`;
+        break;
+      default:
+        break;
+    }
 
   let answers = [
     rightAnswer.imageNum,
@@ -114,6 +131,17 @@ function QuestionsScreen({ route, navigation }) {
           {itemData.item.author}
         </MainButton>
       );
+    if (mainCategory === "BlitzCategoriesScreen")
+      return (
+        <MainButton
+          onPress={() => {
+            setSelectedAnswer(itemData.item.imageNum);
+            setModalVisible(true);
+            Vibration.vibrate(1);
+            // selectedAnswer === rightAnswer.imageNum ? playSound() : null;
+          }}
+        ></MainButton>
+      );
     if (mainCategory === "MuseumCategoriesScreen")
       return <Text>museum item</Text>;
   }
@@ -122,6 +150,7 @@ function QuestionsScreen({ route, navigation }) {
     <View style={styles.container}>
       <Text style={styles.title}>
         {count + 1}. {questionTitle}
+        {/* {mainCategory !== "BlitzCategoriesScreen" ? questionTitle : "hiiiiiiii"} */}
       </Text>
       {mainCategory === "ArtistsCategoriesScreen" ? null : (
         <Image
@@ -132,7 +161,7 @@ function QuestionsScreen({ route, navigation }) {
           resizeMode="contain"
         />
       )}
-      {mainCategory !== "MuseumCategoriesScreen" ? (
+      {mainCategory === "PicturesCategoriesScreen" ? (
         <FlatList
           data={dataAnswers}
           keyExtractor={(item) => item.author}
@@ -140,12 +169,42 @@ function QuestionsScreen({ route, navigation }) {
           numColumns={2}
         />
       ) : null}
-      {/* <FlatList
-        data={dataAnswers}
-        keyExtractor={(item) => item.author}
-        renderItem={renderCategoryItem.bind()}
-        numColumns={2}
-      /> */}
+      {mainCategory === "ArtistsCategoriesScreen" ? (
+        <FlatList
+          data={dataAnswers}
+          keyExtractor={(item) => item.author}
+          renderItem={renderCategoryItem.bind()}
+          numColumns={2}
+        />
+      ) : null}
+      {mainCategory === "BlitzCategoriesScreen" ? (
+        <View style={styles.answersBox}>
+          <MainButton
+            onPress={() => {
+              setSelectedAnswer(rightAnswer.imageNum);
+              setModalVisible(true);
+              Vibration.vibrate(100);
+            }}
+          >
+            True
+          </MainButton>
+          <MainButton
+            onPress={() => {
+              setSelectedAnswer(rightAnswer.imageNum + 10);
+              setModalVisible(true);
+              Vibration.vibrate(100);
+            }}
+          >
+            False
+          </MainButton>
+        </View>
+      ) : // <FlatList
+      //   data={dataAnswers}
+      //   keyExtractor={(item) => item.author}
+      //   renderItem={renderCategoryItem.bind()}
+      //   numColumns={2}
+      // />
+      null}
       <Text style={[styles.score, { marginTop: 5 }]}>
         Current score: {score}
       </Text>
@@ -212,8 +271,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    width: "80%",
-    height: 75,
+    width: Dimensions.get("window").width - 10,
+    // height: Dimensions.get("window").height - 100,
     fontWeight: "500",
     fontSize: 26,
     color: Colors.primary,
@@ -225,6 +284,9 @@ const styles = StyleSheet.create({
     height: 300,
     marginVertical: 10,
     borderRadius: 15,
+  },
+  answersBox: {
+    flexDirection: "row",
   },
   scoreContainer: {
     flexDirection: "column",

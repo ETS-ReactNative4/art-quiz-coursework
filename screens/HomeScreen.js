@@ -14,6 +14,10 @@ function HomeScreen() {
         categoryScreen="PicturesCategoriesScreen"
       />
       <HomeCategoryItem
+        title="Blitz Quiz"
+        categoryScreen="BlitzCategoriesScreen"
+      />
+      <HomeCategoryItem
         title="Museum Quiz"
         categoryScreen="MuseumCategoriesScreen"
       />

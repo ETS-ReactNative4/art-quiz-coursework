@@ -806,9 +806,13 @@ export const QUIZES = [
     "https://github.com/VeronikaBogdan/art-quiz-coursework/blob/main/assets/modern-art.png?raw=true"
   ),
   new CategoryQuiz(
-    1,
+    2,
+    "Blitz Quiz",
+    "https://github.com/VeronikaBogdan/art-quiz-coursework/blob/main/assets/art-9.png?raw=true"
+  ),
+  new CategoryQuiz(
+    3,
     "Museum Quiz",
-    // "https://github.com/VeronikaBogdan/art-quiz-coursework/blob/main/assets/problem-solving.png?raw=true"
     "https://github.com/VeronikaBogdan/art-quiz-coursework/blob/main/assets/art-1.png?raw=true"
   ),
 ];
