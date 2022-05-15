@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Modal,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
+
 
 import CloseButton from "./CloseButton";
 import Colors from "../constants/Colors";
@@ -27,8 +28,6 @@ function HistoryModal({
   itemKey,
   itemDataHistory,
 }) {
-  console.log(itemDataHistory);
-
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
       <View style={styles.modalContainer}>

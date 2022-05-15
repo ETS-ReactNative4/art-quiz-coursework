@@ -14,6 +14,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 
+import { doc, setDoc } from "firebase/firestore/lite";
+import { db } from "../firebase/firebase-config";
+
 import { CATEGORIES } from "../data/dummy-data";
 import IMAGES from "../data/images";
 import Colors from "../constants/Colors";
@@ -39,6 +42,15 @@ function QuestionsScreen({ route, navigation }) {
   const [key, setKey] = useState(0);
 
   const [pastGuesses, setPastGuesses] = useState([]);
+
+  const date = new Date();
+  const options = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
 
   const headerTitle = route.params.quizTitle;
   const mainCategory = route.params.mainCategory;
@@ -227,6 +239,15 @@ function QuestionsScreen({ route, navigation }) {
     } catch (error) {}
   };
 
+  const setData = async (score) => {
+    // Add a new document in collection "cities"
+    await setDoc(doc(db, "history", `${randomNumber}`), {
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString("en-US", { hour12: false }),
+      score: score,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -374,6 +395,7 @@ function QuestionsScreen({ route, navigation }) {
           setHistoryModalVisible(true);
           storeData(`${score + 1}`);
           setPastGuesses((curPastGuesses) => [value, ...curPastGuesses]);
+          setData(score);
           // console.log(pastGuesses);
         }}
       />
