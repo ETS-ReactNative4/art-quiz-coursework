@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -22,15 +23,22 @@ import PictureInfoModal from "../components/pictureInfoModal";
 import GameEndModal from "../components/gameEndModal";
 import MyButton from "../components/MyButton";
 import MainButton from "../components/MainButton";
+import HistoryModal from "../components/HistoryModal";
 
 function QuestionsScreen({ route, navigation }) {
   const NAVIGATION = useNavigation();
 
   const [count, setCount] = useState(0);
+  let randAnswer = IMAGES[getRandomNum(count + 1, 119)];
   const [modalVisible, setModalVisible] = useState(false);
+  const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [modalEnd, setModalEnd] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState(-1);
+  const [selectedAnswer, setSelectedAnswer] = useState(0);
   const [score, setScore] = useState(0);
+  const [value, setValue] = useState("0");
+  const [key, setKey] = useState(0);
+
+  const [pastGuesses, setPastGuesses] = useState([]);
 
   const headerTitle = route.params.quizTitle;
   const mainCategory = route.params.mainCategory;
@@ -40,22 +48,40 @@ function QuestionsScreen({ route, navigation }) {
   );
 
   const rightAnswer = selectedCategory.artistsQuiz[count];
+
   let questionTitle;
+  let blitzAnswer;
+  // let randAnswer = IMAGES[getRandomNum(121, 200)];
 
   if (mainCategory === "ArtistsCategoriesScreen")
     questionTitle = "Which is " + rightAnswer.author + " picture?";
   else if (mainCategory === "PicturesCategoriesScreen")
     questionTitle = "Who is the author of this picture?";
   else
-    switch (getRandomNum(1, 3)) {
+    switch (getRandomNum(1, 6)) {
       case 1:
         questionTitle = `Is this picture painted by ${rightAnswer.author}?`;
+        blitzAnswer = rightAnswer.imageNum;
         break;
       case 2:
         questionTitle = `Is the name of this picture "${rightAnswer.name}"?`;
+        blitzAnswer = rightAnswer.imageNum;
         break;
       case 3:
         questionTitle = `Was this picture painted in ${rightAnswer.year}?`;
+        blitzAnswer = rightAnswer.imageNum;
+        break;
+      case 4:
+        questionTitle = `Is this picture painted by ${randAnswer.author}?`;
+        blitzAnswer = randAnswer.imageNum;
+        break;
+      case 5:
+        questionTitle = `Is the name of this picture "${randAnswer.name}"?`;
+        blitzAnswer = randAnswer.imageNum;
+        break;
+      case 6:
+        questionTitle = `Was this picture painted in ${randAnswer.year}?`;
+        blitzAnswer = randAnswer.imageNum;
         break;
       default:
         break;
@@ -133,18 +159,57 @@ function QuestionsScreen({ route, navigation }) {
       );
     if (mainCategory === "BlitzCategoriesScreen")
       return (
-        <MainButton
-          onPress={() => {
-            setSelectedAnswer(itemData.item.imageNum);
-            setModalVisible(true);
-            Vibration.vibrate(1);
-            // selectedAnswer === rightAnswer.imageNum ? playSound() : null;
-          }}
-        ></MainButton>
+        <View style={styles.answersBox}>
+          <MainButton
+            onPress={() => {
+              setSelectedAnswer(randAnswer.imageNum);
+              setModalVisible(true);
+              Vibration.vibrate(100);
+              console.log(
+                rightAnswer.imageNum +
+                  "   " +
+                  randAnswer.imageNum +
+                  "  " +
+                  selectedAnswer +
+                  "  " +
+                  blitzAnswer
+              );
+            }}
+          >
+            Yes
+          </MainButton>
+          <MainButton
+            onPress={() => {
+              setSelectedAnswer(+randAnswer.imageNum + 1);
+              setModalVisible(true);
+              Vibration.vibrate(100);
+              console.log(
+                rightAnswer.imageNum +
+                  "   " +
+                  randAnswer.imageNum +
+                  "  " +
+                  selectedAnswer +
+                  "  " +
+                  blitzAnswer
+              );
+            }}
+          >
+            No
+          </MainButton>
+        </View>
       );
     if (mainCategory === "MuseumCategoriesScreen")
       return <Text>museum item</Text>;
   }
+  let randomNumber = getRandomNum(-1000, 1000);
+  const storeData = async (value) => {
+    try {
+      let q = await AsyncStorage.setItem(`${+value + randomNumber}`, value);
+      setValue(value);
+      setKey(+value + randomNumber);
+      // console.log(value);
+    } catch (error) {}
+  };
 
   return (
     <View style={styles.container}>
@@ -177,25 +242,44 @@ function QuestionsScreen({ route, navigation }) {
           numColumns={2}
         />
       ) : null}
-      {mainCategory === "BlitzCategoriesScreen" ? (
+      {mainCategory === "BlitzCategoriesScreen" ? renderCategoryItem() : null}
+      {/* {mainCategory === "BlitzCategoriesScreen" ? (
         <View style={styles.answersBox}>
           <MainButton
             onPress={() => {
-              setSelectedAnswer(rightAnswer.imageNum);
+              setSelectedAnswer(randAnswer.imageNum);
               setModalVisible(true);
               Vibration.vibrate(100);
+              console.log(
+                rightAnswer.imageNum +
+                  "   " +
+                  randAnswer.imageNum +
+                  "  " +
+                  selectedAnswer +
+                  "  " +
+                  blitzAnswer
+              );
             }}
           >
-            True
+            Yes
           </MainButton>
           <MainButton
             onPress={() => {
-              setSelectedAnswer(rightAnswer.imageNum + 10);
+              setSelectedAnswer(+randAnswer.imageNum + 1);
               setModalVisible(true);
               Vibration.vibrate(100);
+              console.log(
+                rightAnswer.imageNum +
+                  "   " +
+                  randAnswer.imageNum +
+                  "  " +
+                  selectedAnswer +
+                  "  " +
+                  blitzAnswer
+              );
             }}
           >
-            False
+            No
           </MainButton>
         </View>
       ) : // <FlatList
@@ -204,7 +288,7 @@ function QuestionsScreen({ route, navigation }) {
       //   renderItem={renderCategoryItem.bind()}
       //   numColumns={2}
       // />
-      null}
+      null} */}
       <Text style={[styles.score, { marginTop: 5 }]}>
         Current score: {score}
       </Text>
@@ -212,9 +296,15 @@ function QuestionsScreen({ route, navigation }) {
         modalVisible={modalVisible}
         onPressProp={() => {
           // selectedAnswer === rightAnswer.imageNum ? setScore(score + 1) : null;
-          if (selectedAnswer === rightAnswer.imageNum) {
+
+          if (blitzAnswer === rightAnswer.imageNum || selectedAnswer) {
+            // if (selectedAnswer === rightAnswer.imageNumber) {
+            // if (rightAnswer.imageNum === selectedAnswer || blitzAnswer) {
+            // if (rightAnswer.imageNum === blitzAnswer) {
             setScore(score + 1);
             playSound(require("../assets/sounds/right-1.mp3"));
+            // } else if (blitzAnswer === rightAnswer.imageNum || selectedAnswer) {
+            //   playSound(require("../assets/sounds/wrong.mp3"));
           } else {
             playSound(require("../assets/sounds/wrong.mp3"));
           }
@@ -231,12 +321,18 @@ function QuestionsScreen({ route, navigation }) {
           <View style={styles.scoreContainer}>
             <AntDesign
               name={
+                // blitzAnswer === rightAnswer.imageNum || selectedAnswer
+                // rightAnswer.imageNum === selectedAnswer || blitzAnswer
+                // rightAnswer.imageNum === blitzAnswer
                 selectedAnswer === rightAnswer.imageNum
                   ? "checkcircle"
                   : "closecircle"
               }
               size={39}
               color={
+                // blitzAnswer === rightAnswer.imageNum || selectedAnswer
+                // rightAnswer.imageNum === selectedAnswer || blitzAnswer
+                // rightAnswer.imageNum === blitzAnswer
                 selectedAnswer === rightAnswer.imageNum
                   ? Colors.green
                   : Colors.red
@@ -258,6 +354,23 @@ function QuestionsScreen({ route, navigation }) {
           setScore(0);
           pressHandler("HomeScreen");
         }}
+        onPressHistory={() => {
+          setHistoryModalVisible(true);
+          storeData(`${score + 1}`);
+          setPastGuesses((curPastGuesses) => [value, ...curPastGuesses]);
+          console.log(pastGuesses);
+        }}
+      />
+      <HistoryModal
+        modalVisible={historyModalVisible}
+        onPressProp={() => {
+          setHistoryModalVisible(false);
+        }}
+        itemHistory={value}
+        itemKey={key}
+        // itemDataHistory={() => {
+        //   setPastGuesses((curPastGuesses) => [value, ...curPastGuesses]);
+        // }}
       />
       {/* <MyButton title="NEXT" onPressProp={() => setCount(count + 1)} /> */}
     </View>

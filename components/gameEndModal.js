@@ -7,9 +7,12 @@ function gameEndModal({
   modalVisible,
   onPressHome,
   onPressNext,
+  onPressHistory,
   count,
   score,
 }) {
+  // const [historyModalVisible, setHistoryModalVisible] = useState(false);
+
   const image =
     score === 10
       ? require("../assets/trophy.png")
@@ -28,6 +31,11 @@ function gameEndModal({
             style={styles.button}
             title="Home"
             onPressProp={onPressHome}
+          />
+          <MyButton
+            style={styles.button}
+            title="History"
+            onPressProp={onPressHistory}
           />
         </View>
       </View>

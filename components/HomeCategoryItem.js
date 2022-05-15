@@ -18,6 +18,7 @@ function HomeCategoryItem({ title, categoryScreen }) {
     navigation.navigate(categoryScreen, {
       quizTitle: title,
       categoryScreen: categoryScreen,
+      // keyScore: key,
     });
   }
 

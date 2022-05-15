@@ -1,29 +1,26 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  Button,
-  AppRegistry,
-} from "react-native";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { StyleSheet, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
+
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+
 
 import HomeScreen from "./screens/HomeScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import QuestionsScreen from "./screens/QuestionsScreen";
 import MuseumQuestionsScreen from "./screens/MuseumQuestionsScreen";
 import SettingsModal from "./components/SettingsModal";
+import HistoryModal from "./components/HistoryModal";
 import Colors from "./constants/Colors";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [isVibrated, setIsVibrated] = useState(100);
 
   return (
@@ -64,12 +61,12 @@ export default function App() {
               title: "Artists Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  <Feather
+                  {/* <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a score-button!")}
-                  />
+                    onPress={() => setHistoryModalVisible(true)}
+                  /> */}
                   <Feather
                     name="settings"
                     size={24}
@@ -87,12 +84,12 @@ export default function App() {
               title: "Pictures Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  <Feather
+                  {/* <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a score-button!")}
-                  />
+                    onPress={() => setHistoryModalVisible(true)}
+                  /> */}
                   <Feather
                     name="settings"
                     size={24}
@@ -110,12 +107,12 @@ export default function App() {
               title: "Blitz Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  <Feather
+                  {/* <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a score-button!")}
-                  />
+                    onPress={() => setHistoryModalVisible(true)}
+                  /> */}
                   <Feather
                     name="settings"
                     size={24}
@@ -133,12 +130,12 @@ export default function App() {
               title: "Museum Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  <Feather
+                  {/* <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => alert("This is a score-button!")}
-                  />
+                  /> */}
                   <Feather
                     name="settings"
                     size={24}
@@ -156,12 +153,12 @@ export default function App() {
               title: "Questions",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  <Feather
+                  {/* <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
-                    onPress={() => alert("This is a score-button!")}
-                  />
+                    onPress={() => setHistoryModalVisible(true)}
+                  /> */}
                   <Feather
                     name="settings"
                     size={24}
@@ -179,12 +176,12 @@ export default function App() {
               title: "Blitz Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  <Feather
+                  {/* <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => alert("This is a score-button!")}
-                  />
+                  /> */}
                   <Feather
                     name="settings"
                     size={24}
@@ -203,6 +200,11 @@ export default function App() {
         vibration={isVibrated}
         onVibrated={() => setIsVibrated()}
       />
+      <HistoryModal
+        modalVisible={historyModalVisible}
+        onPressProp={() => setHistoryModalVisible(false)}
+        itemHistory="App.js"
+      />
     </>
   );
 }
@@ -214,6 +216,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: 80,
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
+    justifyContent: "flex-end",
   },
 });

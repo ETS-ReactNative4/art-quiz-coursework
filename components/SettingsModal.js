@@ -66,19 +66,22 @@ function SettingsModal({ modalVisible, onPressProp, vibration }) {
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
       <View style={styles.modalContainer}>
-        <CloseButton onPress={onPressProp} style={styles.closeButton} />
+        <View style={styles.headerContainer}>
+          <Text style={styles.title}>Settings</Text>
+          <CloseButton onPress={onPressProp} style={styles.closeButton} />
+        </View>
         <SettingItem
           title="Music"
           onPress={() => {
             toggleSwitchEnabled();
             // console.log(isEnabled);
             !isEnabled
-              ? playSound(require("../assets/sounds/RiverFlowsInYou.mp3"))
+              ? playSound(require("../assets/sounds/SummerWind.mp3"))
               : stopSound();
           }}
           isEnabled={isEnabled}
         />
-        <SettingItem
+        {/* <SettingItem
           title="Vibration"
           onPress={() => {
             toggleSwitchVibrated();
@@ -87,7 +90,7 @@ function SettingsModal({ modalVisible, onPressProp, vibration }) {
             console.log(vibration);
           }}
           isEnabled={isVibrated}
-        />
+        /> */}
         <View style={styles.item}>
           <Text style={styles.text}>Get phrase right now!</Text>
           <MyButton
@@ -113,7 +116,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     // width: "80%",
     height: "85%",
-    padding: 10,
+    padding: 15,
+    paddingHorizontal: 25,
     backgroundColor: Colors.middleYellow,
     marginHorizontal: 30,
     marginTop: 70,
@@ -121,22 +125,40 @@ const styles = StyleSheet.create({
     elevation: 10,
     // opacity: 0.6,
   },
-  closeButton: {
+  headerContainer: {
     // borderWidth: 1,
-    marginBottom: 60,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 60,
+  },
+  title: {
+    fontSize: 42,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 9,
+    letterSpacing: 1,
+    color: Colors.primary,
+    // paddingLeft: 10,
+  },
+  closeButton: {
+    marginTop: 5,
+    paddingRight: 0,
   },
   item: {
     flexDirection: "row",
-    width: Dimensions.get("window").width - 90,
-    marginHorizontal: 10,
+    width: Dimensions.get("window").width - 107,
+    // marginHorizontal: 10,
     justifyContent: "space-between",
     // borderWidth: 1,
   },
   text: {
     // flex: 1,
-    width: 160,
+    width: 120,
+    // marginRight: 50,
     fontSize: 24,
-    textAlign: "center",
+    textAlign: "left",
     color: Colors.accent,
   },
   button: {

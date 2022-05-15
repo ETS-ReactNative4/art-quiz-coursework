@@ -26,7 +26,6 @@ function CategoriesScreen({ route /*, navigation*/ }) {
   // const [imageApiUrl, setImageApiUrl] = useState("");
 
   const NAVIGATION = useNavigation();
-
   const mainCategory = route.params.categoryScreen;
 
   function getRandomNum(a, b) {
