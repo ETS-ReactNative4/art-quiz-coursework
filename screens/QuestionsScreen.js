@@ -141,6 +141,9 @@ function QuestionsScreen({ route, navigation }) {
             setSelectedAnswer(itemData.item.imageNum);
             setModalVisible(true);
             Vibration.vibrate(100);
+            // useEffect(() => {
+            //   setSelectedAnswer(itemData.item.imageNum);
+            // }, [selectedAnswer]);
           }}
         />
       );
@@ -149,6 +152,9 @@ function QuestionsScreen({ route, navigation }) {
         <MainButton
           onPress={() => {
             setSelectedAnswer(itemData.item.imageNum);
+            // useEffect(() => {
+            //   setSelectedAnswer(itemData.item.imageNum);
+            // }, [selectedAnswer]);
             setModalVisible(true);
             Vibration.vibrate(100);
             // selectedAnswer === rightAnswer.imageNum ? playSound() : null;
@@ -163,6 +169,9 @@ function QuestionsScreen({ route, navigation }) {
           <MainButton
             onPress={() => {
               setSelectedAnswer(randAnswer.imageNum);
+              // useEffect(() => {
+              //   setSelectedAnswer(randAnswer.imageNum);
+              // }, [selectedAnswer]);
               setModalVisible(true);
               Vibration.vibrate(100);
               console.log(
@@ -181,6 +190,9 @@ function QuestionsScreen({ route, navigation }) {
           <MainButton
             onPress={() => {
               setSelectedAnswer(+randAnswer.imageNum + 1);
+              // useEffect(() => {
+              //   setSelectedAnswer(+randAnswer.imageNum + 1);
+              // }, [selectedAnswer]);
               setModalVisible(true);
               Vibration.vibrate(100);
               console.log(
@@ -201,6 +213,10 @@ function QuestionsScreen({ route, navigation }) {
     if (mainCategory === "MuseumCategoriesScreen")
       return <Text>museum item</Text>;
   }
+
+  useEffect(() => {}, [selectedAnswer]);
+  console.log(selectedAnswer);
+
   let randomNumber = getRandomNum(-1000, 1000);
   const storeData = async (value) => {
     try {
@@ -321,20 +337,20 @@ function QuestionsScreen({ route, navigation }) {
           <View style={styles.scoreContainer}>
             <AntDesign
               name={
-                // blitzAnswer === rightAnswer.imageNum || selectedAnswer
-                // rightAnswer.imageNum === selectedAnswer || blitzAnswer
-                // rightAnswer.imageNum === blitzAnswer
-                selectedAnswer === rightAnswer.imageNum
-                  ? "checkcircle"
+                blitzAnswer === rightAnswer.imageNum || selectedAnswer
+                  ? // rightAnswer.imageNum === selectedAnswer || blitzAnswer
+                    // rightAnswer.imageNum === blitzAnswer
+                    // selectedAnswer === rightAnswer.imageNum
+                    "checkcircle"
                   : "closecircle"
               }
               size={39}
               color={
-                // blitzAnswer === rightAnswer.imageNum || selectedAnswer
-                // rightAnswer.imageNum === selectedAnswer || blitzAnswer
-                // rightAnswer.imageNum === blitzAnswer
-                selectedAnswer === rightAnswer.imageNum
-                  ? Colors.green
+                blitzAnswer === rightAnswer.imageNum || selectedAnswer
+                  ? // rightAnswer.imageNum === selectedAnswer || blitzAnswer
+                    // rightAnswer.imageNum === blitzAnswer
+                    // selectedAnswer === rightAnswer.imageNum
+                    Colors.green
                   : Colors.red
               }
             />
@@ -358,7 +374,7 @@ function QuestionsScreen({ route, navigation }) {
           setHistoryModalVisible(true);
           storeData(`${score + 1}`);
           setPastGuesses((curPastGuesses) => [value, ...curPastGuesses]);
-          console.log(pastGuesses);
+          // console.log(pastGuesses);
         }}
       />
       <HistoryModal

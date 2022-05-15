@@ -12,6 +12,7 @@ function HomeScreen() {
   const [keyHistory, setKeyHistory] = useState(-1);
   const [value, setValue] = useState("");
   const [v, setV] = useState("");
+  const [arr, setArr] = useState([]);
 
   const storeData = async (value) => {
     try {
@@ -34,37 +35,39 @@ function HomeScreen() {
     }
   };
 
-  useEffect(() => {
-    async function fetchMyAPI() {
-      const quizesCol = collection(db, "quizes");
-      const quizesSnapshot = await getDocs(quizesCol);
-      const quizesList = quizesSnapshot.docs.map((doc) => doc.data());
+  // useEffect(() => {
+  //   async function fetchMyAPI() {
+  //     const quizesCol = collection(db, "quizes");
+  //     const quizesSnapshot = await getDocs(quizesCol);
+  //     const quizesList = quizesSnapshot.docs.map((doc) => doc.data());
 
-      console.log(quizesList[0]);
-      console.log(quizesList[0].category);
-      setV(quizesList[1].category);
-    }
+  //     console.log(quizesList);
+  //     setArr(quizesList);
 
-    fetchMyAPI();
-  }, [v]);
+  //     console.log(quizesList[0].category);
+  //     setV(quizesList[2].category);
+  //   }
+
+  //   fetchMyAPI();
+  // }, [v]);
 
   return (
     <ScrollView>
-      <Text>adfadf {v}</Text>
+      {/* <Text>adfadf {v}</Text> */}
       <HomeCategoryItem
         title="Artists Quiz"
         categoryScreen="ArtistsCategoriesScreen"
-        // key={() => {
-        //   setKeyHistory(keyHistory + 1);
-        // }}
+        id="0"
       />
       <HomeCategoryItem
         title="Pictures Quiz"
         categoryScreen="PicturesCategoriesScreen"
+        id="1"
       />
       <HomeCategoryItem
         title="Blitz Quiz"
         categoryScreen="BlitzCategoriesScreen"
+        id="2"
       />
       {/* <HomeCategoryItem
         title="Museum Quiz"

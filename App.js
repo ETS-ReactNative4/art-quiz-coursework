@@ -5,9 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
 
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
-
-
 import HomeScreen from "./screens/HomeScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import QuestionsScreen from "./screens/QuestionsScreen";
