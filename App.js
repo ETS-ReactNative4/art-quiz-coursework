@@ -58,12 +58,12 @@ export default function App() {
               title: "Artists Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  {/* <Feather
+                  <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => setHistoryModalVisible(true)}
-                  /> */}
+                  />
                   <Feather
                     name="settings"
                     size={24}
@@ -81,12 +81,12 @@ export default function App() {
               title: "Pictures Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  {/* <Feather
+                  <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => setHistoryModalVisible(true)}
-                  /> */}
+                  />
                   <Feather
                     name="settings"
                     size={24}
@@ -104,12 +104,12 @@ export default function App() {
               title: "Blitz Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  {/* <Feather
+                  <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => setHistoryModalVisible(true)}
-                  /> */}
+                  />
                   <Feather
                     name="settings"
                     size={24}
@@ -127,12 +127,12 @@ export default function App() {
               title: "Museum Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  {/* <Feather
+                  <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => alert("This is a score-button!")}
-                  /> */}
+                  />
                   <Feather
                     name="settings"
                     size={24}
@@ -150,12 +150,12 @@ export default function App() {
               title: "Questions",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  {/* <Feather
+                  <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => setHistoryModalVisible(true)}
-                  /> */}
+                  />
                   <Feather
                     name="settings"
                     size={24}
@@ -173,12 +173,12 @@ export default function App() {
               title: "Blitz Quiz",
               headerRight: () => (
                 <View style={styles.iconsContainer}>
-                  {/* <Feather
+                  <Feather
                     name="star"
                     size={24}
                     color={Colors.primary}
                     onPress={() => alert("This is a score-button!")}
-                  /> */}
+                  />
                   <Feather
                     name="settings"
                     size={24}
@@ -200,7 +200,7 @@ export default function App() {
       <HistoryModal
         modalVisible={historyModalVisible}
         onPressProp={() => setHistoryModalVisible(false)}
-        itemHistory="App.js"
+        // itemHistory="App.js"
       />
     </>
   );
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: 80,
-    // justifyContent: "space-between",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
+    // justifyContent: "flex-end",
   },
 });

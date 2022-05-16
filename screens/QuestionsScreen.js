@@ -229,7 +229,7 @@ function QuestionsScreen({ route, navigation }) {
   useEffect(() => {}, [selectedAnswer]);
   console.log(selectedAnswer);
 
-  let randomNumber = getRandomNum(-1000, 1000);
+  let randomNumber = getRandomNum(0, 1000000);
   const storeData = async (value) => {
     try {
       let q = await AsyncStorage.setItem(`${+value + randomNumber}`, value);

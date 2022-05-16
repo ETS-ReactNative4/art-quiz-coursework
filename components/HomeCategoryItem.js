@@ -13,12 +13,10 @@ import { collection, getDocs } from "firebase/firestore/lite";
 import { db } from "../firebase/firebase-config";
 
 import Colors from "../constants/Colors";
-import { QUIZES } from "../data/dummy-data";
 
 function HomeCategoryItem({ title, categoryScreen, id }) {
   const navigation = useNavigation();
 
-  const [idDB, setIdDB] = useState("");
   const [selectedQuiz, setSelectedQuiz] = useState("");
   const [imageUrl, setImageUrl] = useState(
     "https://github.com/VeronikaBogdan/art-quiz-coursework/blob/main/assets/art-1.png?raw=true"
@@ -46,8 +44,6 @@ function HomeCategoryItem({ title, categoryScreen, id }) {
       // keyScore: key,
     });
   }
-
-  // const selectedQuiz = QUIZES.find((quiz) => quiz.category === title);
 
   return (
     <View style={styles.container}>

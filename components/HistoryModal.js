@@ -8,18 +8,11 @@ import {
   FlatList,
 } from "react-native";
 
+import { collection, getDocs } from "firebase/firestore/lite";
+import { db } from "../firebase/firebase-config";
 
 import CloseButton from "./CloseButton";
 import Colors from "../constants/Colors";
-
-const renderListItem = (listLength, itemData) => (
-  <View style={styles.listItem}>
-    <Text>#{listLength - itemData.index}</Text>
-    <Text>{itemData.item}</Text>
-    {/* <BodyText>#{listLength - itemData.index}</BodyText> */}
-    {/* <BodyText>{itemData.item}</BodyText> */}
-  </View>
-);
 
 function HistoryModal({
   modalVisible,
@@ -28,6 +21,34 @@ function HistoryModal({
   itemKey,
   itemDataHistory,
 }) {
+  const [q, setQ] = useState({});
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const hostoryCol = collection(db, "history");
+      const historySnapshot = await getDocs(hostoryCol);
+      const historyList = historySnapshot.docs.map((doc) => doc.data());
+
+      console.log(historyList);
+
+      setQ(historyList);
+
+      // setSelectedQuiz(quizesList[id].category);
+      // setImageUrl(quizesList[id].categoryUrl);
+    }
+
+    fetchMyAPI();
+  }, []);
+
+  const renderListItem = (itemData, index) => (
+    <View style={styles.listItem}>
+      <Text>{itemData.item.date}</Text>
+      <Text>{itemData.item.time}</Text>
+      <Text>{itemData.item.score}</Text>
+      <Text>{index}</Text>
+    </View>
+  );
+
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
       <View style={styles.modalContainer}>
@@ -35,20 +56,14 @@ function HistoryModal({
           <Text style={styles.title}>History</Text>
           <CloseButton onPress={onPressProp} style={styles.closeButton} />
         </View>
-        <Text>
-          {itemKey} {itemHistory}
-        </Text>
         <View style={styles.listContainer}>
           <FlatList
-            keyExtractor={itemKey}
-            data={itemDataHistory}
-            renderItem={renderListItem.bind(this, 10)}
+            keyExtractor={(item) => item.time}
+            data={q}
+            renderItem={renderListItem.bind()}
             contentContainerStyle={styles.list}
           />
         </View>
-        <Text>
-          {itemKey} {itemHistory}
-        </Text>
       </View>
     </Modal>
   );
@@ -122,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   listItem: {
-    borderColor: "#ccc",
+    borderColor: "#cb2",
     borderWidth: 1,
     padding: 15,
     marginVertical: 10,
