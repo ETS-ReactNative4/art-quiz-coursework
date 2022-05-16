@@ -28,7 +28,7 @@ function HomeCategoryItem({ title, categoryScreen, id }) {
       const quizesSnapshot = await getDocs(quizesCol);
       const quizesList = quizesSnapshot.docs.map((doc) => doc.data());
 
-      console.log(quizesList);
+      // console.log(quizesList);
 
       setSelectedQuiz(quizesList[id].category);
       setImageUrl(quizesList[id].categoryUrl);

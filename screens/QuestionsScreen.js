@@ -14,11 +14,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 
-import { doc, setDoc } from "firebase/firestore/lite";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../firebase/firebase-config";
 
 import { CATEGORIES } from "../data/dummy-data";
-import IMAGES from "../data/images";
+// import IMAGES from "../data/images";
 import Colors from "../constants/Colors";
 
 import ArtistQuestionItem from "../components/ArtistQuestionItem";
@@ -27,15 +27,25 @@ import GameEndModal from "../components/gameEndModal";
 import MyButton from "../components/MyButton";
 import MainButton from "../components/MainButton";
 import HistoryModal from "../components/HistoryModal";
+import images from "../data/images";
 
 function QuestionsScreen({ route, navigation }) {
   const NAVIGATION = useNavigation();
 
+  const [IMAGES, setImagesList] = useState({
+    author: "AUTHOR",
+    imageNum: getRandomNum(-100, 100),
+    name: "PICTURE'S NAME",
+    year: "YEAR",
+  });
+
   const [count, setCount] = useState(0);
   let randAnswer = IMAGES[getRandomNum(count + 1, 119)];
+
   const [modalVisible, setModalVisible] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [modalEnd, setModalEnd] = useState(false);
+
   const [selectedAnswer, setSelectedAnswer] = useState(0);
   const [score, setScore] = useState(0);
   const [value, setValue] = useState("0");
@@ -51,6 +61,19 @@ function QuestionsScreen({ route, navigation }) {
 
   const headerTitle = route.params.quizTitle;
   const mainCategory = route.params.mainCategory;
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const hostoryCol = collection(db, "images");
+      const historySnapshot = await getDocs(hostoryCol);
+      const historyList = historySnapshot.docs.map((doc) => doc.data());
+
+      setImagesList(historyList);
+      // console.log(imagesList);
+    }
+
+    fetchMyAPI();
+  }, []);
 
   const selectedCategory = CATEGORIES.find(
     (item) => item.title === headerTitle
@@ -98,9 +121,9 @@ function QuestionsScreen({ route, navigation }) {
 
   let answers = [
     rightAnswer.imageNum,
-    getRandomNum(count + 1, 119),
-    getRandomNum(count + 2, 119),
-    getRandomNum(count + 3, 119),
+    getRandomNum(count + 2, 99),
+    getRandomNum(count + 4, 99),
+    getRandomNum(count + 3, 99),
   ];
 
   shake(answers);
@@ -111,6 +134,8 @@ function QuestionsScreen({ route, navigation }) {
     IMAGES[answers[2]],
     IMAGES[answers[3]],
   ];
+  console.log("qwqwe");
+  console.log(IMAGES[answers[0]]);
 
   function shake(arr) {
     return arr.sort((a, b) => Math.random() - 0.5);
@@ -223,11 +248,20 @@ function QuestionsScreen({ route, navigation }) {
       return <Text>museum item</Text>;
   }
 
-  useEffect(() => {}, [selectedAnswer]);
+  // useEffect(() => {}, [selectedAnswer]);
   console.log(selectedAnswer);
 
   let randomNumber = getRandomNum(0, 1000000);
 
+  // const setData = async (score) => {
+  //   // Add a new document in collection "cities"
+  //   await setDoc(doc(db, "images", "99"), {
+  //     author: "Jean-Leon Jerome",
+  //     name: "Gladiator Fight",
+  //     year: "1872",
+  //     imageNum: "99",
+  //   });
+  // };
   const setData = async (score) => {
     // Add a new document in collection "cities"
     await setDoc(doc(db, "history", `${randomNumber}`), {
