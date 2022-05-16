@@ -29,12 +29,7 @@ function HistoryModal({
       const historySnapshot = await getDocs(hostoryCol);
       const historyList = historySnapshot.docs.map((doc) => doc.data());
 
-      console.log(historyList);
-
       setQ(historyList);
-
-      // setSelectedQuiz(quizesList[id].category);
-      // setImageUrl(quizesList[id].categoryUrl);
     }
 
     fetchMyAPI();
@@ -42,10 +37,15 @@ function HistoryModal({
 
   const renderListItem = (itemData, index) => (
     <View style={styles.listItem}>
-      <Text>{itemData.item.date}</Text>
-      <Text>{itemData.item.time}</Text>
-      <Text>{itemData.item.score}</Text>
-      <Text>{index}</Text>
+      <Text style={styles.listItemText}>{itemData.item.date}</Text>
+      <Text style={[styles.listItemText, { marginRight: 23 }]}>
+        {itemData.item.time}
+      </Text>
+      <Text
+        style={[styles.listItemText, { fontWeight: "bold", marginRight: 30 }]}
+      >
+        {itemData.item.score}
+      </Text>
     </View>
   );
 
@@ -63,6 +63,11 @@ function HistoryModal({
             renderItem={renderListItem.bind()}
             contentContainerStyle={styles.list}
           />
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Date</Text>
+            <Text style={styles.headerText}>Time</Text>
+            <Text style={styles.headerText}>Score</Text>
+          </View>
         </View>
       </View>
     </Modal>
@@ -88,12 +93,12 @@ const styles = StyleSheet.create({
     // opacity: 0.6,
   },
   headerContainer: {
-    borderWidth: 1,
+    // borderWidth: 1,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 60,
+    paddingBottom: 30,
   },
   title: {
     fontSize: 42,
@@ -126,24 +131,36 @@ const styles = StyleSheet.create({
     // width: 100,
     marginHorizontal: 0,
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  headerText: {
+    fontSize: 22,
+    paddingHorizontal: 20,
+    fontWeight: "bold",
+  },
   listContainer: {
-    // flex: 1,  //для андроид должно работать скроллвью, но у меня не работает
-    width: "60%",
+    flex: 1, //для андроид должно работать скроллвью, но у меня не работает
+    // width: "60%",
+    flexDirection: "column-reverse",
   },
   list: {
     // flex: 1,
+    // width: "100%",
     flexGrow: 1,
-    // alignItems: "center",
-    justifyContent: "flex-end",
   },
   listItem: {
     borderColor: "#cb2",
-    borderWidth: 1,
     padding: 15,
     marginVertical: 10,
-    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    backgroundColor: Colors.lightOrange,
+    borderRadius: 10,
+  },
+  listItemText: {
+    fontSize: 15,
   },
 });

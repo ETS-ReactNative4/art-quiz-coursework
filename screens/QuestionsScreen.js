@@ -39,9 +39,6 @@ function QuestionsScreen({ route, navigation }) {
   const [selectedAnswer, setSelectedAnswer] = useState(0);
   const [score, setScore] = useState(0);
   const [value, setValue] = useState("0");
-  const [key, setKey] = useState(0);
-
-  const [pastGuesses, setPastGuesses] = useState([]);
 
   const date = new Date();
   const options = {
@@ -230,14 +227,6 @@ function QuestionsScreen({ route, navigation }) {
   console.log(selectedAnswer);
 
   let randomNumber = getRandomNum(0, 1000000);
-  const storeData = async (value) => {
-    try {
-      let q = await AsyncStorage.setItem(`${+value + randomNumber}`, value);
-      setValue(value);
-      setKey(+value + randomNumber);
-      // console.log(value);
-    } catch (error) {}
-  };
 
   const setData = async (score) => {
     // Add a new document in collection "cities"
@@ -387,15 +376,14 @@ function QuestionsScreen({ route, navigation }) {
           // setCount(count + 1);
           setModalEnd(!modalEnd);
           setModalVisible(!modalVisible);
+          setData(score + 1);
           setCount(0);
           setScore(0);
           pressHandler("HomeScreen");
         }}
         onPressHistory={() => {
           setHistoryModalVisible(true);
-          storeData(`${score + 1}`);
-          setPastGuesses((curPastGuesses) => [value, ...curPastGuesses]);
-          setData(score);
+          setData(score + 1);
           // console.log(pastGuesses);
         }}
       />
@@ -405,10 +393,6 @@ function QuestionsScreen({ route, navigation }) {
           setHistoryModalVisible(false);
         }}
         itemHistory={value}
-        itemKey={key}
-        // itemDataHistory={() => {
-        //   setPastGuesses((curPastGuesses) => [value, ...curPastGuesses]);
-        // }}
       />
       {/* <MyButton title="NEXT" onPressProp={() => setCount(count + 1)} /> */}
     </View>
