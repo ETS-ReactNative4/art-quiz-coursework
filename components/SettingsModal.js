@@ -76,7 +76,7 @@ function SettingsModal({ modalVisible, onPressProp, vibration }) {
             toggleSwitchEnabled();
             // console.log(isEnabled);
             !isEnabled
-              ? playSound(require("../assets/sounds/SummerWind.mp3"))
+              ? playSound(require("../assets/sounds/RiverFlowsInYou.mp3"))
               : stopSound();
           }}
           isEnabled={isEnabled}

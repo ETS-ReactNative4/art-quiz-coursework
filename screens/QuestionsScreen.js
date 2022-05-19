@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -18,7 +18,7 @@ import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../firebase/firebase-config";
 
 import { CATEGORIES } from "../data/dummy-data";
-// import IMAGES from "../data/images";
+import images from "../data/images";
 import Colors from "../constants/Colors";
 
 import ArtistQuestionItem from "../components/ArtistQuestionItem";
@@ -27,20 +27,26 @@ import GameEndModal from "../components/gameEndModal";
 import MyButton from "../components/MyButton";
 import MainButton from "../components/MainButton";
 import HistoryModal from "../components/HistoryModal";
-import images from "../data/images";
 
 function QuestionsScreen({ route, navigation }) {
   const NAVIGATION = useNavigation();
 
+  const headerTitle = route.params.quizTitle;
+  const mainCategory = route.params.mainCategory;
+
   const [IMAGES, setImagesList] = useState({
-    author: "AUTHOR",
-    imageNum: getRandomNum(-100, 100),
+    author: "author",
+    imageNum: "123",
     name: "PICTURE'S NAME",
     year: "YEAR",
   });
 
   const [count, setCount] = useState(0);
-  let randAnswer = IMAGES[getRandomNum(count + 1, 119)];
+  let randAnswer =
+    mainCategory === "BlitzCategoriesScreen"
+      ? images[getRandomNum(count + 1, 99)]
+      : IMAGES[getRandomNum(count + 1, 99)];
+  // console.log(randAnswer);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
@@ -59,9 +65,6 @@ function QuestionsScreen({ route, navigation }) {
     minute: "numeric",
   };
 
-  const headerTitle = route.params.quizTitle;
-  const mainCategory = route.params.mainCategory;
-
   useEffect(() => {
     async function fetchMyAPI() {
       const hostoryCol = collection(db, "images");
@@ -69,7 +72,6 @@ function QuestionsScreen({ route, navigation }) {
       const historyList = historySnapshot.docs.map((doc) => doc.data());
 
       setImagesList(historyList);
-      // console.log(imagesList);
     }
 
     fetchMyAPI();
@@ -129,13 +131,11 @@ function QuestionsScreen({ route, navigation }) {
   shake(answers);
 
   let dataAnswers = [
-    IMAGES[answers[0]],
-    IMAGES[answers[1]],
-    IMAGES[answers[2]],
-    IMAGES[answers[3]],
+    images[answers[0]], //ТУТ
+    images[answers[1]], //ТУТ
+    images[answers[2]], //ТУТ
+    images[answers[3]], //ТУТ
   ];
-  console.log("qwqwe");
-  console.log(IMAGES[answers[0]]);
 
   function shake(arr) {
     return arr.sort((a, b) => Math.random() - 0.5);
@@ -198,6 +198,9 @@ function QuestionsScreen({ route, navigation }) {
         </MainButton>
       );
     if (mainCategory === "BlitzCategoriesScreen")
+      // useEffect(() => {
+      //   setSelectedAnswer(randAnswer.imageNum);
+      // }, [selectedAnswer]);
       return (
         <View style={styles.answersBox}>
           <MainButton
@@ -262,12 +265,17 @@ function QuestionsScreen({ route, navigation }) {
   //     imageNum: "99",
   //   });
   // };
+  let cat = "";
+  if (mainCategory === "ArtistsCategoriesScreen") cat = "Artists Quiz";
+  if (mainCategory === "PicturesCategoriesScreen") cat = "Pictures Quiz";
+  if (mainCategory === "BlitzCategoriesScreen") cat = "Blitz Quiz";
   const setData = async (score) => {
-    // Add a new document in collection "cities"
     await setDoc(doc(db, "history", `${randomNumber}`), {
       date: date.toLocaleDateString(),
       time: date.toLocaleTimeString("en-US", { hour12: false }),
       score: score,
+      mainCategory: cat,
+      headerTitle: headerTitle,
     });
   };
 
@@ -303,52 +311,6 @@ function QuestionsScreen({ route, navigation }) {
         />
       ) : null}
       {mainCategory === "BlitzCategoriesScreen" ? renderCategoryItem() : null}
-      {/* {mainCategory === "BlitzCategoriesScreen" ? (
-        <View style={styles.answersBox}>
-          <MainButton
-            onPress={() => {
-              setSelectedAnswer(randAnswer.imageNum);
-              setModalVisible(true);
-              Vibration.vibrate(100);
-              console.log(
-                rightAnswer.imageNum +
-                  "   " +
-                  randAnswer.imageNum +
-                  "  " +
-                  selectedAnswer +
-                  "  " +
-                  blitzAnswer
-              );
-            }}
-          >
-            Yes
-          </MainButton>
-          <MainButton
-            onPress={() => {
-              setSelectedAnswer(+randAnswer.imageNum + 1);
-              setModalVisible(true);
-              Vibration.vibrate(100);
-              console.log(
-                rightAnswer.imageNum +
-                  "   " +
-                  randAnswer.imageNum +
-                  "  " +
-                  selectedAnswer +
-                  "  " +
-                  blitzAnswer
-              );
-            }}
-          >
-            No
-          </MainButton>
-        </View>
-      ) : // <FlatList
-      //   data={dataAnswers}
-      //   keyExtractor={(item) => item.author}
-      //   renderItem={renderCategoryItem.bind()}
-      //   numColumns={2}
-      // />
-      null} */}
       <Text style={[styles.score, { marginTop: 5 }]}>
         Current score: {score}
       </Text>
@@ -357,9 +319,9 @@ function QuestionsScreen({ route, navigation }) {
         onPressProp={() => {
           // selectedAnswer === rightAnswer.imageNum ? setScore(score + 1) : null;
 
-          if (blitzAnswer === rightAnswer.imageNum || selectedAnswer) {
-            // if (selectedAnswer === rightAnswer.imageNumber) {
-            // if (rightAnswer.imageNum === selectedAnswer || blitzAnswer) {
+          // if (blitzAnswer === rightAnswer.imageNum || selectedAnswer) {
+          // if (selectedAnswer === rightAnswer.imageNumber) {
+          if (rightAnswer.imageNum === selectedAnswer || blitzAnswer) {
             // if (rightAnswer.imageNum === blitzAnswer) {
             setScore(score + 1);
             playSound(require("../assets/sounds/right-1.mp3"));
@@ -381,20 +343,20 @@ function QuestionsScreen({ route, navigation }) {
           <View style={styles.scoreContainer}>
             <AntDesign
               name={
-                blitzAnswer === rightAnswer.imageNum || selectedAnswer
-                  ? // rightAnswer.imageNum === selectedAnswer || blitzAnswer
-                    // rightAnswer.imageNum === blitzAnswer
-                    // selectedAnswer === rightAnswer.imageNum
-                    "checkcircle"
+                // blitzAnswer === rightAnswer.imageNum || selectedAnswer
+                // rightAnswer.imageNum === selectedAnswer || blitzAnswer
+                // rightAnswer.imageNum === blitzAnswer
+                selectedAnswer === rightAnswer.imageNum || blitzAnswer
+                  ? "checkcircle"
                   : "closecircle"
               }
               size={39}
               color={
-                blitzAnswer === rightAnswer.imageNum || selectedAnswer
-                  ? // rightAnswer.imageNum === selectedAnswer || blitzAnswer
-                    // rightAnswer.imageNum === blitzAnswer
-                    // selectedAnswer === rightAnswer.imageNum
-                    Colors.green
+                // blitzAnswer === rightAnswer.imageNum || selectedAnswer
+                // rightAnswer.imageNum === selectedAnswer || blitzAnswer
+                // rightAnswer.imageNum === blitzAnswer
+                selectedAnswer === rightAnswer.imageNum || blitzAnswer
+                  ? Colors.green
                   : Colors.red
               }
             />

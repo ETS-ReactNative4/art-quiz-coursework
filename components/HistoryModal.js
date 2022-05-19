@@ -33,19 +33,28 @@ function HistoryModal({
     }
 
     fetchMyAPI();
-  }, []);
+  }, [q]);
 
-  const renderListItem = (itemData, index) => (
+  const renderListItem = (itemData) => (
     <View style={styles.listItem}>
-      <Text style={styles.listItemText}>{itemData.item.date}</Text>
-      <Text style={[styles.listItemText, { marginRight: 23 }]}>
-        {itemData.item.time}
-      </Text>
-      <Text
-        style={[styles.listItemText, { fontWeight: "bold", marginRight: 30 }]}
-      >
-        {itemData.item.score}
-      </Text>
+      <View style={styles.scoreText}>
+        <Text style={styles.listItemText}>{itemData.item.date}</Text>
+        <Text style={[styles.listItemText, { marginRight: 45 }]}>
+          {itemData.item.time}
+        </Text>
+        <Text
+          style={[
+            styles.listItemText,
+            { fontWeight: "bold", marginRight: 30, fontSize: 23 },
+          ]}
+        >
+          {itemData.item.score}
+        </Text>
+      </View>
+      <View style={styles.infoBottom}>
+        <Text style={{ fontSize: 17 }}>{itemData.item.mainCategory}</Text>
+        <Text style={{ fontSize: 17 }}>{itemData.item.headerTitle}</Text>
+      </View>
     </View>
   );
 
@@ -64,7 +73,7 @@ function HistoryModal({
             contentContainerStyle={styles.list}
           />
           <View style={styles.header}>
-            <Text style={styles.headerText}>Date</Text>
+            <Text style={[styles.headerText, { marginLeft: 5 }]}>Date</Text>
             <Text style={styles.headerText}>Time</Text>
             <Text style={styles.headerText}>Score</Text>
           </View>
@@ -154,7 +163,7 @@ const styles = StyleSheet.create({
     borderColor: "#cb2",
     padding: 15,
     marginVertical: 10,
-    flexDirection: "row",
+    // flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
     backgroundColor: Colors.lightOrange,
@@ -162,5 +171,16 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 15,
+    marginHorizontal: 10,
+  },
+  scoreText: {
+    // marginHorizontal: 10,
+    marginVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  infoBottom: {
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 });
